@@ -10,13 +10,16 @@ import (
 )
 
 
-func ValidateRequest(req *http.Request) bool {
+func ValidateRequest(req *http.Request) error {
 	cookie, err := req.Cookie("token")
 	if err != nil {
-		return false
+		return errors.New(variables.NoToken)
 	}
 	valid, _ := VerifyToken(cookie.Value)
-	return valid
+	if !valid {
+		return errors.New(variables.InvalidToken)
+	}
+	return nil
 }
 
 func GetAccount(tokenString string) (accounts.Account, error) {
@@ -31,10 +34,10 @@ func GetAccount(tokenString string) (accounts.Account, error) {
 }
 
 
-func GetMyAccount(req *http.Request) (accounts.Account, error) {
+func GetmyAccount(req *http.Request) (accounts.Account, error) {
 	cookie, err := req.Cookie("token")
 	if err != nil {
-		return accounts.Account{}, errors.New("provide authorization token")
+		return accounts.Account{}, errors.New(variables.NoToken)
 	}
 	return GetAccount(cookie.Value)
 }

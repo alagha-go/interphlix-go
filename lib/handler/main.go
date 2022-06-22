@@ -14,4 +14,5 @@ var (
 func Main() {
 	// routes to work on account
 	Router.HandleFunc("/apis/sign-up", accounts.SignUp).Methods("POST")
+	Router.HandleFunc("/apis/myaccount", accounts.GetMyAccount).Methods("GET")
 }
