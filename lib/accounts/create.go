@@ -32,7 +32,7 @@ func CreateAccount(account Account) ([]byte, int) {
 	}
 	Response.Data = account
 	Response.Success = true
-	return variables.JsonMarshal(Response), http.StatusOK
+	return variables.JsonMarshal(Response), http.StatusCreated
 }
 
 
@@ -47,4 +47,24 @@ func GetNewAccountID() primitive.ObjectID {
 		return GetNewAccountID()
 	}
 	return ID
+}
+
+
+/// check if account exists by email
+func (account *Account) ExistsByEmail() bool {
+	var accountExist Account
+	ctx := context.Background()
+	collection := variables.Client.Database("Interphlix").Collection("Accounts")
+	err := collection.FindOne(ctx, bson.M{"email": account.Email}).Decode(&accountExist)
+	return err == nil
+}
+
+
+// check if account exists by id
+func (account *Account) ExistsByID() bool {
+	var accountExist Account
+	ctx := context.Background()
+	collection := variables.Client.Database("Interphlix").Collection("Accounts")
+	err := collection.FindOne(ctx, bson.M{"_id": account.ID}).Decode(&accountExist)
+	return err == nil
 }
