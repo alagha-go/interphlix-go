@@ -12,19 +12,18 @@ import (
 // create account
 func CreateAccount(account Account) ([]byte, int) {
 	var Response variables.Response
-	var accountExist Account
 	Response.Action = "create user"
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Accounts")
 
-	err := collection.FindOne(ctx, bson.M{"email": account.Email}).Decode(&accountExist)
-	if err == nil {
+	exists := account.ExistsByEmail()
+	if exists {
 		Response.Failed = true
 		Response.Error = variables.UserAlreadyExists
 		return variables.JsonMarshal(Response), http.StatusConflict
 	}
 	account.ID = GetNewAccountID()
-	_, err = collection.InsertOne(context.Background(), account)
+	_, err := collection.InsertOne(ctx, account)
 	if err != nil {
 		Response.Failed = true
 		Response.Error = variables.InternalServerError
