@@ -12,7 +12,7 @@ import (
 // create account
 func CreateAccount(account Account) ([]byte, int) {
 	var Response variables.Response
-	Response.Action = "create user"
+	Response.Action = variables.CreateUserAction
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Accounts")
 
