@@ -12,4 +12,5 @@ type Response struct {
 
 type Secret struct {
 	MongoDBUrl							string						`json:"mongodb_url,omitempty" bson:"mongodb_url,omitempty"`
+	JwtKey								string						`json:"jwtkey,omitempty" bson:"jwtkey,omitempty"`
 }

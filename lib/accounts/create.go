@@ -10,7 +10,7 @@ import (
 )
 
 // create account
-func CreateAccount(account Account) ([]byte, int) {
+func CreateAccount(account *Account) ([]byte, int) {
 	var Response variables.Response
 	Response.Action = variables.CreateUserAction
 	ctx := context.Background()

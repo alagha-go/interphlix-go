@@ -19,7 +19,7 @@ func SignUp(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	account.EmailVerified = false
-	data, status := accounts.CreateAccount(account)
+	data, status := accounts.CreateAccount(&account)
 	res.WriteHeader(status)
 	res.Write(data)
 }
