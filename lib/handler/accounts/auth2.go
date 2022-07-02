@@ -17,7 +17,7 @@ var (
 )
 
 var (
-	scopes = []string{"https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"}
+	scopes = []string{"https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/drive.file"}
 )
 
 func GetUserInfo(token string) (accounts.Account, error) {
