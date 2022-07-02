@@ -21,14 +21,8 @@ func SignUp(res http.ResponseWriter, req *http.Request) {
 	account.EmailVerified = false
 	data, status := accounts.CreateAccount(&account)
 	if status == 201 {
-		token, _, _ := GenerateToken(account)
-		http.SetCookie(res, &http.Cookie{
-			Domain: ".interphlix.com",
-			Name: "token",
-			Value: token,
-			Path: "/",
-			Secure: true,
-		})
+		cookie, _, _ := GenerateToken(account)
+		http.SetCookie(res, cookie)
 	}
 	res.WriteHeader(status)
 	res.Write(data)

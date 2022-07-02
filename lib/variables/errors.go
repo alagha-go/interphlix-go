@@ -8,4 +8,8 @@ const (
 	InvalidJson = "invalid json data"
 	InvalidToken = "invalid token"
 	NoToken = "no token provided"
+	CouldNotGetToken = "error could not get token from google"
+	NoCode = "No Google code provided"
+	CouldNotGetUserInfoFromGoogle = "could not get your profile info from google"
+	CouldNotGenerateToken = "error could not genreare auth token try to relogin later"
 )

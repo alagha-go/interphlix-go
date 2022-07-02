@@ -2,6 +2,6 @@ package variables
 
 
 var (
-	CreateUserAction = "create user"
+	CreateUserAction = "create account"
 	GetAccount = "get account"
 )

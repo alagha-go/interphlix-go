@@ -16,7 +16,7 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func GenerateToken(account accounts.Account) (string, int, error) {
+func GenerateToken(account accounts.Account) (*http.Cookie, int, error) {
 	expires := time.Now().Add(120*time.Hour)
 	claims := &Claims{
 		AccountID: account.ID,
@@ -29,9 +29,9 @@ func GenerateToken(account accounts.Account) (string, int, error) {
 	secret := variables.LoadSecret()
 	tokenString, err := token.SignedString([]byte(secret.JwtKey))
 	if err != nil {
-		return "", http.StatusInternalServerError, errors.New("could not generate token")
+		return nil, http.StatusInternalServerError, errors.New("could not generate token")
 	}
-	return tokenString, 200, nil
+	return &http.Cookie{Name: "token", Value: tokenString, Domain: ".interphlix.com", Path: "/"}, http.StatusOK, nil
 }
 
 
@@ -57,14 +57,14 @@ func VerifyToken(tokenString string) (bool, int) {
 }
 
 
-func RefreshToken(tokenString string) (string, int, error) {
+func RefreshToken(tokenString string) (*http.Cookie, int, error) {
 	valid, status := VerifyToken(tokenString)
 	if !valid {
-		return "", status, errors.New("invalid token")
+		return nil, status, errors.New(variables.InvalidToken)
 	}
 	account, err := GetAccount(tokenString)
 	if err != nil {
-		return "", http.StatusNotFound, errors.New("account does not exist")
+		return nil, http.StatusNotFound, errors.New(variables.UserNotFound)
 	}
 	return GenerateToken(account)
 }
