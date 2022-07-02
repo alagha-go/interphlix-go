@@ -12,4 +12,5 @@ const (
 	NoCode = "No Google code provided"
 	CouldNotGetUserInfoFromGoogle = "could not get your profile info from google"
 	CouldNotGenerateToken = "error could not genreare auth token try to relogin later"
+	WrongPassword = "wrong password"
 )

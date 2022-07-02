@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-
+//// user logged in with google an then redirected
 func Redirect(res http.ResponseWriter, req *http.Request) {
 	var account accounts.Account
 	code := req.URL.Query().Get("code")
@@ -29,6 +29,7 @@ func Redirect(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	account.SetToken(token)
+	account.SignUpMethod = "google"
 	data, status := accounts.CreateAccount(&account)
 	json.Unmarshal(data, &account)
 	cookie, status1, err := GenerateToken(account)
@@ -43,5 +44,22 @@ func Redirect(res http.ResponseWriter, req *http.Request) {
 
 
 func Login(res http.ResponseWriter, req *http.Request) {
-	
+	res.Header().Set("content-type", "application/json")
+	var account accounts.Account
+	err := json.NewDecoder(req.Body).Decode(&account)
+	if err != nil {
+		response := variables.Response{Action: variables.CreateUserAction, Failed: true, Error: variables.InvalidJson}
+		res.WriteHeader(http.StatusBadRequest)
+		res.Write(variables.JsonMarshal(response))
+		return
+	}
+	data, status := account.Login()
+	cookie, status1, err := GenerateToken(account)
+	if err != nil {
+		res.WriteHeader(status1)
+		res.Write(variables.JsonMarshal(variables.Response{Action: variables.Login}))
+	}
+	http.SetCookie(res, cookie)
+	res.WriteHeader(status)
+	res.Write(data)
 }

@@ -10,6 +10,7 @@ import (
 type GoogleAccount struct {
 	ID									primitive.ObjectID							`json:"_id,omitempty" bson:"_id,omitempty"`
 	GoogleID							string										`json:"id,omitempty" bson:"id,omitempty"`
+	SignUpMethod						string										`json:"signup_method,omitempty" bson:"signup_method,omitempty"`
 	PaymentDue							time.Time									`json:"payment_due,omitempty" bson:"payment_due,omitempty"`
 	Email								string										`json:"email,omitempty" bson:"email,omitempty"`
 	EmailVerified						bool										`json:"verified_email,omitempty" bson:"verified_email,omitempty"`
@@ -23,6 +24,8 @@ type GoogleAccount struct {
 
 type Account struct {
 	ID									primitive.ObjectID							`json:"_id,omitempty" bson:"_id,omitempty"`
+	GoogleID							string										`json:"id,omitempty" bson:"id,omitempty"`
+	SignUpMethod						string										`json:"signup_method,omitempty" bson:"signup_method,omitempty"`
 	Email								string										`json:"email,omitempty" bson:"email,omitempty"`
 	EmailVerified						bool										`json:"email_verified,omitempty" bson:"email_verified,omitempty"`
 	UserName							string										`json:"user_name,omitempty" bson:"user_name,omitempty"`
@@ -31,6 +34,7 @@ type Account struct {
 	Photo								string										`json:"photo,omitempty" bson:"photo,omitempty"`
 	Token								Token										`json:"token,omitempty" bson:"token,omitempty"`
 	NewPassword							string										`json:"new_password,omitempty" bson:"new_password,omitempty"`
+	TimeCreated							time.Time									`json:"time_created,omitempty" bson:"time_created,omitempty"`
 	Password							string										`json:"password,omitempty" bson:"password,omitempty"`
 	Deleted								bool										`json:"deleted,omitempty" bson:"deleted,omitempty"`
 }

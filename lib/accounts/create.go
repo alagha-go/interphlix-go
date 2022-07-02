@@ -4,6 +4,7 @@ import (
 	"context"
 	"interphlix/lib/variables"
 	"net/http"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -23,6 +24,7 @@ func CreateAccount(account *Account) ([]byte, int) {
 		return variables.JsonMarshal(Response), http.StatusConflict
 	}
 	account.ID = GetNewAccountID()
+	account.TimeCreated = time.Now()
 	_, err := collection.InsertOne(ctx, account)
 	if err != nil {
 		Response.Failed = true
