@@ -27,3 +27,14 @@ func SignUp(res http.ResponseWriter, req *http.Request) {
 	res.WriteHeader(status)
 	res.Write(data)
 }
+
+func GoogleSignUp(res http.ResponseWriter, req *http.Request) {
+	url, err := GetUrl()
+	if err != nil {
+		res.Header().Set("content-type", "application/json")
+		res.WriteHeader(http.StatusInternalServerError)
+		res.Write(variables.JsonMarshal(variables.Response{Action: variables.CreateUserAction, Failed: true, Error: variables.InternalServerError}))
+		return
+	}
+	http.Redirect(res, req, url, http.StatusTemporaryRedirect)
+}

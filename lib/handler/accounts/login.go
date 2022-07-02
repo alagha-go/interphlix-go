@@ -63,3 +63,15 @@ func Login(res http.ResponseWriter, req *http.Request) {
 	res.WriteHeader(status)
 	res.Write(data)
 }
+
+
+func GoogleLogin(res http.ResponseWriter, req *http.Request) {
+	url, err := GetUrl()
+	if err != nil {
+		res.Header().Set("content-type", "application/json")
+		res.WriteHeader(http.StatusInternalServerError)
+		res.Write(variables.JsonMarshal(variables.Response{Action: variables.Login, Failed: true, Error: variables.InternalServerError}))
+		return
+	}
+	http.Redirect(res, req, url, http.StatusTemporaryRedirect)
+}

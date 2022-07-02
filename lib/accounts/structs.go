@@ -35,6 +35,7 @@ type Account struct {
 	Token								Token										`json:"token,omitempty" bson:"token,omitempty"`
 	NewPassword							string										`json:"new_password,omitempty" bson:"new_password,omitempty"`
 	TimeCreated							time.Time									`json:"time_created,omitempty" bson:"time_created,omitempty"`
+	Type								string										`json:"type,omitempty" bson:"type,omitempty"`
 	Password							string										`json:"password,omitempty" bson:"password,omitempty"`
 	Deleted								bool										`json:"deleted,omitempty" bson:"deleted,omitempty"`
 }
