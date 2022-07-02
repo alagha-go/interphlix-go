@@ -20,5 +20,12 @@ func Main() {
 
 
 	// server static files
+	Router.HandleFunc("/favicon.ico", ServeFavicon).Methods("GET")
 	Router.PathPrefix("/").Handler(fs)
+}
+
+
+func ServeFavicon(res http.ResponseWriter, req *http.Request) {
+	path := "./web/logo.ico"
+	http.ServeFile(res, req, path)
 }
