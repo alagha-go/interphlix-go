@@ -19,6 +19,11 @@ func CreateAccount(account *Account) ([]byte, int) {
 
 	exists := account.ExistsByEmail()
 	if exists {
+		if account.SignUpMethod == "google" {
+			Response.Success = true
+			Response.Data = account
+			return variables.JsonMarshal(Response), http.StatusConflict
+		}
 		Response.Failed = true
 		Response.Error = variables.UserAlreadyExists
 		return variables.JsonMarshal(Response), http.StatusConflict
@@ -57,6 +62,7 @@ func (account *Account) ExistsByEmail() bool {
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Accounts")
 	err := collection.FindOne(ctx, bson.M{"email": account.Email}).Decode(&accountExist)
+	account.ID = accountExist.ID
 	return err == nil
 }
 
