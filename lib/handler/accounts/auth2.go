@@ -13,7 +13,11 @@ import (
 )
 
 var (
-	scopes []string
+	clientfile = "client.json"
+)
+
+var (
+	scopes = []string{"https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"}
 )
 
 func GetUserInfo(token string) (accounts.Account, error) {
@@ -54,7 +58,7 @@ func GetToken(code string) (*oauth2.Token, error) {
 
 
 func GetConfig() (*oauth2.Config, error) {
-	secretBody, err := ioutil.ReadFile("./secret1.json")
+	secretBody, err := ioutil.ReadFile(clientfile)
 	if err != nil {
 		return nil, err
 	}
