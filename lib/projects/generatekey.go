@@ -14,9 +14,15 @@ func (project *Project) GenerateKey(name string) ([]byte, int) {
 	var Project Project
 	var Response variables.Response
 	Key := primitive.NewObjectID().Hex()
-	Response.Action = variables.CreateProject
+	Response.Action = variables.GenerateApiKey
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Projects")
+
+	if name == "" {
+		Response.Failed = true
+		Response.Error = variables.InvalidName
+		return variables.JsonMarshal(Response), http.StatusBadRequest
+	}
 
 	err := collection.FindOne(ctx, bson.M{"_id": project.ID}).Decode(&Project)
 	if err != nil {

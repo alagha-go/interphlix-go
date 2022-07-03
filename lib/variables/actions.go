@@ -8,4 +8,5 @@ var (
 	UpdateAccount = "update account"
 	ChangePassword = "change password"
 	CreateProject = "create project"
+	GenerateApiKey = "create api key"
 )
