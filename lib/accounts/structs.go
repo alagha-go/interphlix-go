@@ -29,8 +29,8 @@ type Account struct {
 	Email								string										`json:"email,omitempty" bson:"email,omitempty"`
 	EmailVerified						bool										`json:"email_verified,omitempty" bson:"email_verified,omitempty"`
 	UserName							string										`json:"user_name,omitempty" bson:"user_name,omitempty"`
-	GivenName							string										`json:"given_name,omitempty" bson:"given_name,omitempty"`
-	FamilyName							string										`json:"family_name,omitempty" bson:"family_name,omitempty"`
+	FirstName							string										`json:"first_name,omitempty" bson:"first_name,omitempty"`
+	LastName							string										`json:"last_name,omitempty" bson:"last_name,omitempty"`
 	Photo								string										`json:"photo,omitempty" bson:"photo,omitempty"`
 	Token								Token										`json:"token,omitempty" bson:"token,omitempty"`
 	NewPassword							string										`json:"new_password,omitempty" bson:"new_password,omitempty"`
