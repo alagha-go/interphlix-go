@@ -15,6 +15,7 @@ func Main() {
 	// routes to work on account
 	Router.HandleFunc("/apis/sign-up", accounts.SignUp).Methods("POST")
 	Router.HandleFunc("/apis/login", accounts.Login).Methods("POST")
+	Router.HandleFunc("/apis/account/changepassword", accounts.ChangePassword).Methods("POST")
 	Router.HandleFunc("/apis/myaccount", accounts.GetMyAccount).Methods("GET")
 	Router.HandleFunc("/login/redirect", accounts.Redirect).Methods("GET")
 	Router.HandleFunc("/apis/sign-up/google", accounts.GoogleSignUp).Methods("GET")
