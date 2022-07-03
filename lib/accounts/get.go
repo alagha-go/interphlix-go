@@ -2,6 +2,7 @@ package accounts
 
 import (
 	"context"
+	"errors"
 	"interphlix/lib/variables"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -14,7 +15,10 @@ func GetAccountByID(ID primitive.ObjectID) (Account, error) {
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Accounts")
 	err := collection.FindOne(ctx, bson.M{"_id": ID}).Decode(&account)
-	return account, err
+	if err != nil {
+		return account, errors.New("account not found")
+	}
+	return account, nil
 }
 
 
@@ -24,5 +28,8 @@ func GetAccountByEmail(email string) (Account, error) {
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Accounts")
 	err := collection.FindOne(ctx, bson.M{"email": account.Email}).Decode(&account)
-	return account, err
+	if err != nil {
+		return account, errors.New("account not found")
+	}
+	return account, nil
 }
