@@ -17,4 +17,7 @@ const (
 	ProjectExists = "project already exists"
 	EmailNotVerified = "email not verified, verify your email and try again"
 	InvalidName = "empty name not allowed"
+	InvalidID = "invalid id"
+	ProjectNotFound = "project does not exist"
+	ApiKeyExists = "api key with this name already exists"
 )
