@@ -11,11 +11,20 @@ import (
 func SignUp(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
 	var account accounts.Account
+	Response := variables.Response{Action: variables.CreateUserAction}
 	err := json.NewDecoder(req.Body).Decode(&account)
 	if err != nil {
-		response := variables.Response{Action: variables.CreateUserAction, Failed: true, Error: variables.InvalidJson}
+		Response.Failed = true
+		Response.Error = variables.InvalidJson
 		res.WriteHeader(http.StatusBadRequest)
-		res.Write(variables.JsonMarshal(response))
+		res.Write(variables.JsonMarshal(Response))
+		return
+	}
+	if len(account.Password) < 4 {
+		Response.Failed = true
+		Response.Error = variables.ShortPassword
+		res.WriteHeader(http.StatusBadRequest)
+		res.Write(variables.JsonMarshal(Response))
 		return
 	}
 	account.EmailVerified = false
