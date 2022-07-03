@@ -12,6 +12,10 @@ var (
 	Router = mux.NewRouter()
 )
 
+func init() {
+	Main()
+}
+
 func Main() {
 	// routes to work on account
 	Router.HandleFunc("/apis/sign-up", accounts.SignUp).Methods("POST")

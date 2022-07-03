@@ -1,8 +1,8 @@
 package main
 
 import (
+	_"interphlix/lib/variables"
 	"interphlix/lib/handler"
-	"interphlix/lib/variables"
 	"log"
 	"net/http"
 )
@@ -13,9 +13,6 @@ var (
 
 
 func main() {
-	variables.ConnectToDB()
-
-	handler.Main()
 	err := http.ListenAndServe(PORT, handler.Router)
 	HandlError(err)
 }
