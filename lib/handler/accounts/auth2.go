@@ -40,7 +40,7 @@ func GetUserInfo(token string) (accounts.Account, error) {
 	if err != nil {
 		return accounts.Account{}, err
 	}
-	return accounts.Account{Email: account.Email, EmailVerified: account.EmailVerified, UserName: account.Name, FirstName: account.GivenName, LastName: account.FamilyName, Photo: account.Picture}, nil
+	return accounts.Account{Email: account.Email, EmailVerified: account.EmailVerified, UserName: account.Name, FirstName: account.GivenName, LastName: account.FamilyName, Photo: account.Picture, Locale: account.Locale}, nil
 }
 
 
