@@ -44,7 +44,7 @@ func (project *Project) CreateProject() ([]byte, int) {
 func (project *Project) Exists() bool {
 	var Project Project
 	ctx := context.Background()
-	collection := variables.Client.Database("Interphlix").Collection("Projects")
+	collection := variables.Local.Database("Interphlix").Collection("Projects")
 
 	err := collection.FindOne(ctx, bson.M{"name": project.Name, "account_id": project.AccountID}).Decode(&Project)
 	return err == nil
@@ -53,7 +53,7 @@ func (project *Project) Exists() bool {
 func CreateProjectID() primitive.ObjectID {
 	var Project Project
 	ctx := context.Background()
-	collection := variables.Client.Database("Interphlix").Collection("Projects")
+	collection := variables.Local.Database("Interphlix").Collection("Projects")
 	ID := primitive.NewObjectID()
 	err := collection.FindOne(ctx, bson.M{"_id": ID}).Decode(&Project)
 	if err == nil {

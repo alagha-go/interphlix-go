@@ -1,5 +1,7 @@
 package variables
 
+import "context"
+
 
 const (
 	UserAlreadyExists	= "user with this email already exists"
@@ -21,3 +23,13 @@ const (
 	ProjectNotFound = "project does not exist"
 	ApiKeyExists = "api key with this name already exists"
 )
+
+func SaveError(err error, pkg string, function string) {
+	if err != nil {
+		ctx := context.Background()
+		collection := Local.Database("Interphlix").Collection("Errors")
+		log := Log{Error: err.Error(), Package: pkg, Function: function}
+		_, err := collection.InsertOne(ctx, log)
+		HandleError(err)
+	}
+}
