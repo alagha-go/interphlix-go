@@ -13,15 +13,26 @@ import (
 
 var (
 	Client *mongo.Client
+	Local *mongo.Client
 )
 
 
 func ConnectToDB() {
+	ConnectToLocl()
 	var err error
 	ctx := context.Background()
 	secret := LoadSecret()
 	clientOptions := options.Client().ApplyURI(secret.MongoDBUrl)
 	Client, err = mongo.Connect(ctx, clientOptions)
+	HandleError(err)
+}
+
+func ConnectToLocl() {
+	var err error
+	ctx := context.Background()
+	secret := LoadSecret()
+	clientOptions := options.Client().ApplyURI(secret.LocalUrl)
+	Local, err = mongo.Connect(ctx, clientOptions)
 	HandleError(err)
 }
 
