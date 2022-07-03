@@ -28,6 +28,9 @@ func CreateAccount(account *Account) ([]byte, int) {
 		Response.Error = variables.UserAlreadyExists
 		return variables.JsonMarshal(Response), http.StatusConflict
 	}
+	if account.SignUpMethod != "google" {
+		account.Password = Hasher([]byte(account.Password))
+	}
 	account.ID = GetNewAccountID()
 	account.TimeCreated = time.Now()
 	_, err := collection.InsertOne(ctx, account)
