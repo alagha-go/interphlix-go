@@ -39,6 +39,7 @@ func CreateAccount(account *Account) ([]byte, int) {
 		Response.Error = variables.InternalServerError
 		return variables.JsonMarshal(Response), http.StatusConflict
 	}
+	account.Token = nil
 	account.Password = ""
 	Response.Data = account
 	Response.Success = true
