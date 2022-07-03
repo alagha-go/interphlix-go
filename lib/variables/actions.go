@@ -9,4 +9,6 @@ var (
 	ChangePassword = "change password"
 	CreateProject = "create project"
 	GenerateApiKey = "create api key"
+	GetProjects = "get projects"
+	GetApiKeys = "get apis keys"
 )
