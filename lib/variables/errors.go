@@ -14,4 +14,7 @@ const (
 	CouldNotGenerateToken = "error could not genreare auth token try to relogin later"
 	WrongPassword = "wrong password"
 	ShortPassword = "your password is too short"
+	ProjectExists = "project already exists"
+	EmailNotVerified = "email not verified, verify your email and try again"
+	InvalidName = "empty name not allowed"
 )

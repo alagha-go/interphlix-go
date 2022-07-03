@@ -7,4 +7,5 @@ var (
 	Login = "login"
 	UpdateAccount = "update account"
 	ChangePassword = "change password"
+	CreateProject = "create project"
 )
