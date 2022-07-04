@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	ProjectsLimit = 1
+	ProjectsLimit = 10
 )
 
 
