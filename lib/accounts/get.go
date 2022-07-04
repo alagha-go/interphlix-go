@@ -18,7 +18,7 @@ func GetAccountByID(ID primitive.ObjectID) (Account, error) {
 	opts := options.FindOne().SetProjection(bson.D{{"password", 0}, {"token", 0}})
 	err := collection.FindOne(ctx, bson.M{"_id": ID}, opts).Decode(&account)
 	if err != nil {
-		return account, errors.New("account not found")
+		return account, errors.New(variables.UserNotFound)
 	}
 	return account, nil
 }
@@ -32,7 +32,7 @@ func GetAccountByEmail(email string) (Account, error) {
 	opts := options.FindOne().SetProjection(bson.D{{"password", 0}, {"token", 0}})
 	err := collection.FindOne(ctx, bson.M{"email": account.Email}, opts).Decode(&account)
 	if err != nil {
-		return account, errors.New("account not found")
+		return account, errors.New(variables.UserNotFound)
 	}
 	return account, nil
 }

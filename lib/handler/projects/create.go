@@ -48,7 +48,7 @@ func CreateProject(res http.ResponseWriter, req *http.Request) {
 
 func GenerateApiKey(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	Response := variables.Response{Action: variables.CreateProject}
+	Response := variables.Response{Action: variables.GenerateApiKey}
 	projectID, err := primitive.ObjectIDFromHex(mux.Vars(req)["projectId"])
 	if err != nil {
 		Response.Failed = true
