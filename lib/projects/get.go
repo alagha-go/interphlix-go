@@ -54,6 +54,11 @@ func (project *Project) GetApiKeys() ([]byte, int) {
 		Response.Error = variables.ProjectNotFound
 		return variables.JsonMarshal(Response), http.StatusNotFound
 	}
+
+	for index := range Project.ApiKeys {
+		Project.ApiKeys[index].Key = ""
+	}
+
 	Response.Success = true
 	Response.Data = Project.ApiKeys
 	return variables.JsonMarshal(Response), http.StatusOK
