@@ -22,7 +22,7 @@ func Redirect(res http.ResponseWriter, req *http.Request) {
 		res.Write(variables.JsonMarshal(variables.Response{Action: variables.CreateUserAction, Error: variables.CouldNotGetToken, Failed: true}))
 		return
 	}
-	account, err = GetUserInfo(token.AccessToken)
+	account, err = accounts.GetUserInfo(token.AccessToken)
 	if err != nil {
 		res.WriteHeader(http.StatusUnauthorized)
 		res.Write(variables.JsonMarshal(variables.Response{Action: variables.CreateUserAction, Error: variables.CouldNotGetUserInfoFromGoogle, Failed: true}))

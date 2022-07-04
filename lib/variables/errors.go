@@ -24,6 +24,7 @@ const (
 	ApiKeyExists = "api key with this name already exists"
 	ProjectsLimit = "you cannot create more project delete one to create another one"
 	ApiKeysLimit = "reached api key limit for this project delete one to create another one"
+	InvalidEmail = "provide a valid email address to proceed"
 )
 
 func SaveError(err error, pkg string, function string) {

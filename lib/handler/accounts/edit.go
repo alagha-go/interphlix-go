@@ -42,3 +42,30 @@ func ChangePassword(res http.ResponseWriter, req *http.Request) {
 	res.WriteHeader(status)
 	res.Write(data)
 }
+
+
+func UpdateAccount(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("content-type", "application/json")
+	var account accounts.Account
+	Response := variables.Response{Action: variables.UpdateAccount}
+	err := json.NewDecoder(req.Body).Decode(&account)
+	if err != nil {
+		Response.Failed = true
+		Response.Error = variables.InvalidJson
+		res.WriteHeader(http.StatusBadRequest)
+		res.Write(variables.JsonMarshal(Response))
+		return
+	}
+	Account, err := GetmyAccount(req)
+	if err != nil {
+		Response.Failed = true
+		Response.Error = err.Error()
+		res.WriteHeader(http.StatusUnauthorized)
+		res.Write(variables.JsonMarshal(Response))
+		return
+	}
+	account.ID = Account.ID
+	data, status := account.Update()
+	res.WriteHeader(status)
+	res.Write(data)
+}

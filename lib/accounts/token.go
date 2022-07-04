@@ -12,8 +12,5 @@ func (account *Account) SetToken(token *oauth2.Token) {
 }
 
 func (account *Account) GetToken() *oauth2.Token {
-	var token oauth2.Token
-	data, _ := json.Marshal(account.Token)
-	json.Unmarshal(data, &token)
-	return &token
+	return &oauth2.Token{AccessToken: account.Token.AccessToken, RefreshToken: account.Token.RefreshToken, TokenType: account.Token.TokenType, Expiry: account.Token.Expiry}
 }
