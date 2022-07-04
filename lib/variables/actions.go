@@ -12,4 +12,5 @@ var (
 	GetProjects = "get projects"
 	GetApiKeys = "get apis keys"
 	Delete = "delete"
+	UploadMovie = "upload movie"
 )

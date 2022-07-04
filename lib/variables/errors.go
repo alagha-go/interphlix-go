@@ -25,6 +25,7 @@ const (
 	ProjectsLimit = "you cannot create more project delete one to create another one"
 	ApiKeysLimit = "reached api key limit for this project delete one to create another one"
 	InvalidEmail = "provide a valid email address to proceed"
+	MovieExists = "movie with this code already exists"
 )
 
 func SaveError(err error, pkg string, function string) {
