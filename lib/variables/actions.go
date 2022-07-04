@@ -11,4 +11,5 @@ var (
 	GenerateApiKey = "create api key"
 	GetProjects = "get projects"
 	GetApiKeys = "get apis keys"
+	Delete = "delete"
 )

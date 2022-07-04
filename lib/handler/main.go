@@ -32,5 +32,7 @@ func Main() {
 	Router.HandleFunc("/apis/projects/{projectId}/keys/create", projects.GenerateApiKey).Methods("POST")
 	Router.HandleFunc("/apis/projects", projects.GetMyProjects).Methods("GET")
 	Router.HandleFunc("/apis/projects/{projectId}/keys", projects.GetProjectApiKeys).Methods("GET")
+	Router.HandleFunc("/apis/projects/delete/{projectId}", projects.DeleteProject).Methods("DELETE")
+	Router.HandleFunc("/apis/projects/{projectId}/keys/delete/{name}", projects.DeleteApiKey).Methods("DELETE")
 
 }
