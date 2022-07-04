@@ -23,6 +23,7 @@ const (
 	ProjectNotFound = "project does not exist"
 	ApiKeyExists = "api key with this name already exists"
 	ProjectsLimit = "you cannot create more project delete one to create another one"
+	ApiKeysLimit = "reached api key limit for this project delete one to create another one"
 )
 
 func SaveError(err error, pkg string, function string) {

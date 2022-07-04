@@ -9,6 +9,10 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+var (
+	ApiKeysLimit = 10
+)
+
 
 func (project *Project) GenerateKey(name string) ([]byte, int) {
 	var Project Project
@@ -29,6 +33,12 @@ func (project *Project) GenerateKey(name string) ([]byte, int) {
 		Response.Failed = true
 		Response.Error = variables.ProjectNotFound
 		return variables.JsonMarshal(Response), http.StatusNotFound
+	}
+
+	if len(Project.ApiKeys) >= ApiKeysLimit {
+		Response.Failed = true
+		Response.Error = variables.ApiKeysLimit
+		return variables.JsonMarshal(Response), http.StatusNotAcceptable
 	}
 
 	for index := range Project.ApiKeys {
