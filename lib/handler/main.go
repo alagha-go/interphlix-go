@@ -22,6 +22,8 @@ func Main() {
 	Router.HandleFunc("/apis/login", accounts.Login).Methods("POST")
 	Router.HandleFunc("/apis/projects/create", projects.CreateProject).Methods("POST")
 	Router.HandleFunc("/apis/projects/{projectId}/keys/create", projects.GenerateApiKey).Methods("POST")
+	Router.HandleFunc("/apis/projects", projects.GetMyProjects).Methods("GET")
+	Router.HandleFunc("/apis/projects/{projectId}/keys", projects.GetProjectApiKeys).Methods("GET")
 	Router.HandleFunc("/apis/account/changepassword", accounts.ChangePassword).Methods("POST")
 	Router.HandleFunc("/apis/myaccount", accounts.GetMyAccount).Methods("GET")
 	Router.HandleFunc("/login/redirect", accounts.Redirect).Methods("GET")
