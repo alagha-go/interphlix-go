@@ -38,3 +38,23 @@ func GetMyProjects(accountID primitive.ObjectID) ([]byte, int) {
 	Response.Data = projects
 	return variables.JsonMarshal(Response), http.StatusOK
 }
+
+
+func GetProjectApiKeys(projectID primitive.ObjectID) ([]byte, int) {
+	var project Project
+	Response := variables.Response{Action: variables.GetProjects}
+	ctx := context.Background()
+	collection := variables.Local.Database("Interphlix").Collection("Projects")
+
+	opts := options.FindOne().SetProjection(bson.D{{"api_keys", 1}})
+
+	err := collection.FindOne(ctx, bson.M{"_id": projectID}, opts).Decode(&project)
+	if err != nil {
+		Response.Failed = true
+		Response.Error = variables.ProjectNotFound
+		return variables.JsonMarshal(Response), http.StatusNotFound
+	}
+	Response.Success = true
+	Response.Data = project.ApiKeys
+	return variables.JsonMarshal(Response), http.StatusOK
+}
