@@ -16,6 +16,13 @@ func (project *Project) CreateProject() ([]byte, int) {
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Projects")
 
+	canCreate, err := CanCreateNewProject(project.AccountID)
+	if !canCreate {
+		Response.Failed = true
+		Response.Error = err.Error()
+		return variables.JsonMarshal(Response), http.StatusNotAcceptable
+	}
+
 	if project.Name == "" {
 		Response.Failed = true
 		Response.Error = variables.InvalidName
@@ -29,7 +36,7 @@ func (project *Project) CreateProject() ([]byte, int) {
 	}
 
 	project.ID = CreateProjectID()
-	_, err := collection.InsertOne(ctx, project)
+	_, err = collection.InsertOne(ctx, project)
 	if err != nil {
 		Response.Failed = true
 		Response.Error = variables.InternalServerError

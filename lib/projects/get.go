@@ -2,12 +2,17 @@ package projects
 
 import (
 	"context"
+	"errors"
 	"interphlix/lib/variables"
 	"net/http"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
+)
+
+var (
+	ProjectsLimit = 1
 )
 
 
@@ -62,4 +67,21 @@ func (project *Project) GetApiKeys() ([]byte, int) {
 	Response.Success = true
 	Response.Data = Project.ApiKeys
 	return variables.JsonMarshal(Response), http.StatusOK
+}
+
+
+
+func CanCreateNewProject(ID primitive.ObjectID) (bool, error) {
+	ctx := context.Background()
+	collection := variables.Client.Database("Interphlix").Collection("Projects")
+	count, err := collection.CountDocuments(ctx, bson.M{"account_id": ID})
+	if err != nil {
+		variables.SaveError(err, "accounts", "CanCreateNewProject")
+		return false, errors.New(variables.InternalServerError)
+	}
+	if count >= int64(ProjectsLimit) {
+		return false, errors.New(variables.ProjectsLimit)
+	}
+
+	return true, nil
 }
