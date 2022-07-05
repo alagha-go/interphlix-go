@@ -9,7 +9,7 @@ import (
 )
 
 // load featured movies
-func LoadFeaturedMovies() []Movie {
+func LoadFeaturedMovies(start, end int) []Movie {
 	var Movies []Movie
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
@@ -23,11 +23,17 @@ func LoadFeaturedMovies() []Movie {
 	}
 	cursor.All(ctx, &Movies)
 
-	return Movies
+	if start > len(Movies) {
+		return []Movie{}
+	}else if end > len(Movies) {
+		return Movies[start:]
+	}
+
+	return Movies[start:end]
 }
 
 // loading trending Movies
-func LoadTrendingMovies() []Movie {
+func LoadTrendingMovies(start, end int) []Movie {
 	var Movies []Movie
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
@@ -41,12 +47,18 @@ func LoadTrendingMovies() []Movie {
 	}
 	cursor.All(ctx, &Movies)
 
-	return Movies
+	if start > len(Movies) {
+		return []Movie{}
+	}else if end > len(Movies) {
+		return Movies[start:]
+	}
+
+	return Movies[start:end]
 }
 
 
 // get popular movies
-func LoadPoPularMovies() []Movie {
+func LoadPoPularMovies(start, end int) []Movie {
 	var Movies []Movie
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
@@ -60,11 +72,17 @@ func LoadPoPularMovies() []Movie {
 	}
 	cursor.All(ctx, &Movies)
 
-	return Movies
+	if start > len(Movies) {
+		return []Movie{}
+	}else if end > len(Movies) {
+		return Movies[start:]
+	}
+
+	return Movies[start:end]
 }
 
 // load popular tvshows
-func LoadPoPularTvShows() []Movie {
+func LoadPoPularTvShows(start, end int) []Movie {
 	var Movies []Movie
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
@@ -78,7 +96,13 @@ func LoadPoPularTvShows() []Movie {
 	}
 	cursor.All(ctx, &Movies)
 
-	return Movies
+	if start > len(Movies) {
+		return []Movie{}
+	}else if end > len(Movies) {
+		return Movies[start:]
+	}
+
+	return Movies[start:end]
 }
 
 // load movies by genre
