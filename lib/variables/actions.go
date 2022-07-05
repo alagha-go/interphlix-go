@@ -15,4 +15,5 @@ var (
 	UploadMovie = "upload movie"
 	AddSeason = "add season to a movie"
 	AddEpisode = "add episode to a season"
+	GetRecommend = "get recommendation movies"
 )
