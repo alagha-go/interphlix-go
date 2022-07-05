@@ -8,7 +8,6 @@ import (
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 /// upload movie to the database
@@ -47,7 +46,7 @@ func (movie *Movie) Upload() ([]byte, int) {
 
 
 /// addseason to a movie
-func (movie *Movie) AddSeason(season Season) ([]byte, int) {
+func (movie *Movie) AddSeason(season *Season) ([]byte, int) {
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
 	Response := variables.Response{Action: variables.AddSeason}
@@ -63,17 +62,18 @@ func (movie *Movie) AddSeason(season Season) ([]byte, int) {
 	}
 
 	filter := bson.M{"_id": bson.M{"$eq": movie.ID}}
-	update := bson.M{"$addToSet": season}
+	update := bson.M{"$addToSet": bson.M{"seasons": season}}
 
-	_, err := collection.UpdateOne(ctx, filter, update)
+	cursor, err := collection.UpdateOne(ctx, filter, update)
 	if err != nil {
 		Response.Failed = true
-		if err == mongo.ErrNilDocument {
-			Response.Error = variables.MovieNotFound
-			return variables.JsonMarshal(Response), http.StatusNotFound
-		}
 		Response.Error = variables.InternalServerError
 		return variables.JsonMarshal(Response), http.StatusInternalServerError
+	}
+	if cursor.ModifiedCount == 0 && cursor.MatchedCount == 0{
+		Response.Failed = true
+		Response.Error = variables.MovieNotFound
+		return variables.JsonMarshal(Response), http.StatusNotFound
 	}
 	Response.Success = true
 	Response.Data = season
@@ -82,7 +82,7 @@ func (movie *Movie) AddSeason(season Season) ([]byte, int) {
 
 
 /// add episode to a season
-func(season *Season) AddEpisode(episode Episode) ([]byte, int) {
+func(season *Season) AddEpisode(episode *Episode, ID *primitive.ObjectID) ([]byte, int) {
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
 	Response := variables.Response{Action: variables.AddEpisode}
@@ -91,21 +91,22 @@ func(season *Season) AddEpisode(episode Episode) ([]byte, int) {
 		episode.ID = primitive.NewObjectID()
 	}
 
-	filter := bson.M{"seasons._id": bson.M{"$eq": season.ID}}
+	filter := bson.M{"_id": bson.M{"$eq": ID}, "seasons._id": bson.M{"$eq": season.ID}}
 	update := bson.M{"$addToSet": bson.M{"seasons.$.episodes": episode}}
 
-	_, err := collection.UpdateOne(ctx, filter, update)
+	cursor, err := collection.UpdateOne(ctx, filter, update)
 	if err != nil {
 		Response.Failed = true
-		if err == mongo.ErrNilDocument {
-			Response.Error = variables.SeasonNotFound
-			return variables.JsonMarshal(Response), http.StatusNotFound
-		}
 		Response.Error = variables.InternalServerError
 		return variables.JsonMarshal(Response), http.StatusInternalServerError
 	}
+	if cursor.ModifiedCount == 0 && cursor.MatchedCount == 0{
+		Response.Failed = true
+		Response.Error = variables.SeasonNotFound
+		return variables.JsonMarshal(Response), http.StatusNotFound
+	}
 	Response.Success = true
-	Response.Data = season
+	Response.Data = episode
 	return variables.JsonMarshal(Response), http.StatusCreated
 }
 

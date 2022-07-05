@@ -2,6 +2,7 @@ package handler
 
 import (
 	"interphlix/lib/handler/accounts"
+	"interphlix/lib/handler/movies"
 	"interphlix/lib/handler/projects"
 
 	"github.com/gorilla/mux"
@@ -35,4 +36,8 @@ func Main() {
 	Router.HandleFunc("/apis/projects/delete/{projectId}", projects.DeleteProject).Methods("DELETE")
 	Router.HandleFunc("/apis/projects/{projectId}/keys/delete/{name}", projects.DeleteApiKey).Methods("DELETE")
 
+	// routes to work on movies
+	Router.HandleFunc("/apis/movies/upload", movies.UploadMovie).Methods("POST")
+	Router.HandleFunc("/apis/movies/{movieId}/seasons/upload", movies.UploadSeason).Methods("POST")
+	Router.HandleFunc("/apis/movies/{movieId}/seasons/{seasonId}/episodes/upload", movies.UploadEpisode).Methods("POST")
 }
