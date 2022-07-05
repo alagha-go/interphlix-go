@@ -13,4 +13,6 @@ var (
 	GetApiKeys = "get apis keys"
 	Delete = "delete"
 	UploadMovie = "upload movie"
+	AddSeason = "add season to a movie"
+	AddEpisode = "add episode to a season"
 )

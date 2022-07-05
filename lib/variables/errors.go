@@ -26,6 +26,8 @@ const (
 	ApiKeysLimit = "reached api key limit for this project delete one to create another one"
 	InvalidEmail = "provide a valid email address to proceed"
 	MovieExists = "movie with this code already exists"
+	MovieNotFound = "movie does not exists"
+	SeasonNotFound = "season with does not exist"
 )
 
 func SaveError(err error, pkg string, function string) {

@@ -4,13 +4,14 @@ import (
 	"context"
 	"interphlix/lib/variables"
 	"net/http"
+	"strings"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
-
-
+/// upload movie to the database
 func (movie *Movie) Upload() ([]byte, int) {
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
@@ -20,7 +21,19 @@ func (movie *Movie) Upload() ([]byte, int) {
 		Response.Error = variables.MovieExists
 		return variables.JsonMarshal(Response), http.StatusConflict
 	}
-	movie.NewID()
+	if strings.Contains(movie.ID.Hex(), "000000") {
+		movie.NewID()
+	}
+	for sindex := range movie.Seasons {
+		for eindex := range movie.Seasons[sindex].Episodes {
+			if strings.Contains(movie.Seasons[sindex].Episodes[eindex].ID.Hex(), "000000") {
+				movie.Seasons[sindex].Episodes[eindex].ID = primitive.NewObjectID()
+			}
+		}
+		if strings.Contains(movie.Seasons[sindex].ID.Hex(), "000000") {
+			movie.Seasons[sindex].ID = primitive.NewObjectID()
+		}
+	}
 	_, err := collection.InsertOne(ctx, movie)
 	if err != nil {
 		Response.Failed = true
@@ -29,7 +42,71 @@ func (movie *Movie) Upload() ([]byte, int) {
 	}
 	Response.Success = true
 	Response.Data = movie
-	return variables.JsonMarshal(Response), http.StatusOK
+	return variables.JsonMarshal(Response), http.StatusCreated
+}
+
+
+/// addseason to a movie
+func (movie *Movie) AddSeason(season Season) ([]byte, int) {
+	ctx := context.Background()
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
+	Response := variables.Response{Action: variables.AddSeason}
+
+	if strings.Contains(season.ID.Hex(), "000000") {
+		season.ID = primitive.NewObjectID()
+	}
+
+	for index := range season.Episodes {
+		if strings.Contains(season.Episodes[index].ID.Hex(), "000000") {
+			season.Episodes[index].ID = primitive.NewObjectID()
+		}
+	}
+
+	filter := bson.M{"_id": bson.M{"$eq": movie.ID}}
+	update := bson.M{"$addToSet": season}
+
+	_, err := collection.UpdateOne(ctx, filter, update)
+	if err != nil {
+		Response.Failed = true
+		if err == mongo.ErrNilDocument {
+			Response.Error = variables.MovieNotFound
+			return variables.JsonMarshal(Response), http.StatusNotFound
+		}
+		Response.Error = variables.InternalServerError
+		return variables.JsonMarshal(Response), http.StatusInternalServerError
+	}
+	Response.Success = true
+	Response.Data = season
+	return variables.JsonMarshal(Response), http.StatusCreated
+}
+
+
+/// add episode to a season
+func(season *Season) AddEpisode(episode Episode) ([]byte, int) {
+	ctx := context.Background()
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
+	Response := variables.Response{Action: variables.AddEpisode}
+
+	if strings.Contains(episode.ID.Hex(), "000000") {
+		episode.ID = primitive.NewObjectID()
+	}
+
+	filter := bson.M{"seasons._id": bson.M{"$eq": season.ID}}
+	update := bson.M{"$addToSet": bson.M{"seasons.$.episodes": episode}}
+
+	_, err := collection.UpdateOne(ctx, filter, update)
+	if err != nil {
+		Response.Failed = true
+		if err == mongo.ErrNilDocument {
+			Response.Error = variables.SeasonNotFound
+			return variables.JsonMarshal(Response), http.StatusNotFound
+		}
+		Response.Error = variables.InternalServerError
+		return variables.JsonMarshal(Response), http.StatusInternalServerError
+	}
+	Response.Success = true
+	Response.Data = season
+	return variables.JsonMarshal(Response), http.StatusCreated
 }
 
 
