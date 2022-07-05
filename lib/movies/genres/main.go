@@ -29,6 +29,7 @@ func LoadGenres() {
 	if err != nil {
 		log.Panic(err)
 	}
+	collection.Drop(ctx)
 	_, err = collection.InsertMany(ctx, documents)
 	if err != nil && err != mongo.ErrEmptySlice {
 		log.Panic(err)
