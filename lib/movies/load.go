@@ -9,7 +9,7 @@ import (
 )
 
 // load featured movies
-func LoadFeaturedMovies(start, end int) []Movie {
+func LoadFeaturedMovies(start, end int, seed int64) []Movie {
 	var Movies []Movie
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
@@ -23,6 +23,8 @@ func LoadFeaturedMovies(start, end int) []Movie {
 	}
 	cursor.All(ctx, &Movies)
 
+	Movies = RandomMovies(seed, Movies)
+
 	if start > len(Movies) {
 		return []Movie{}
 	}else if end > len(Movies) {
@@ -33,19 +35,21 @@ func LoadFeaturedMovies(start, end int) []Movie {
 }
 
 // loading trending Movies
-func LoadTrendingMovies(start, end int) []Movie {
+func LoadTrendingMovies(start, end int, seed int64) []Movie {
 	var Movies []Movie
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
 
-	opts := options.Find().SetProjection(bson.D{{"_id", 1}, {"image_url", 1}, {"title", 1}, {"type", 1},})
+	// opts := options.Find().SetProjection(bson.D{{"_id", 1}, {"image_url", 1}, {"title", 1}, {"type", 1},})
 
-	cursor, err := collection.Find(ctx, bson.M{"trending": true}, opts)
+	cursor, err := collection.Find(ctx, bson.M{"trending": true})//, opts)
 	if err != nil {
 		variables.SaveError(err, "movies", "LoadTrendingMovies")
 		return Movies
 	}
 	cursor.All(ctx, &Movies)
+
+	Movies = RandomMovies(seed, Movies)
 
 	if start > len(Movies) {
 		return []Movie{}
@@ -58,19 +62,21 @@ func LoadTrendingMovies(start, end int) []Movie {
 
 
 // get popular movies
-func LoadPoPularMovies(start, end int) []Movie {
+func LoadPoPularMovies(start, end int, seed int64) []Movie {
 	var Movies []Movie
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
 
-	opts := options.Find().SetProjection(bson.D{{"_id", 1}, {"image_url", 1}, {"title", 1}, {"type", 1},})
+	// opts := options.Find().SetProjection(bson.D{{"_id", 1}, {"image_url", 1}, {"title", 1}, {"type", 1},})
 
-	cursor, err := collection.Find(ctx, bson.M{"type": "Movie", "popular": true}, opts)
+	cursor, err := collection.Find(ctx, bson.M{"type": "Movie", "popular": true})//, opts)
 	if err != nil {
 		variables.SaveError(err, "movies", "LoadPopularMovies")
 		return Movies
 	}
 	cursor.All(ctx, &Movies)
+
+	Movies = RandomMovies(seed, Movies)
 
 	if start > len(Movies) {
 		return []Movie{}
@@ -82,19 +88,21 @@ func LoadPoPularMovies(start, end int) []Movie {
 }
 
 // load popular tvshows
-func LoadPoPularTvShows(start, end int) []Movie {
+func LoadPoPularTvShows(start, end int, seed int64) []Movie {
 	var Movies []Movie
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
 
-	opts := options.Find().SetProjection(bson.D{{"_id", 1}, {"image_url", 1}, {"title", 1}, {"type", 1},})
+	// opts := options.Find().SetProjection(bson.D{{"_id", 1}, {"image_url", 1}, {"title", 1}, {"type", 1},})
 
-	cursor, err := collection.Find(ctx, bson.M{"type": "Tv-Show", "popular": true}, opts)
+	cursor, err := collection.Find(ctx, bson.M{"type": "Tv-Show", "popular": true})//, opts)
 	if err != nil {
 		variables.SaveError(err, "movies", "LoadPopularTvShows")
 		return Movies
 	}
 	cursor.All(ctx, &Movies)
+
+	Movies = RandomMovies(seed, Movies)
 
 	if start > len(Movies) {
 		return []Movie{}
@@ -111,9 +119,9 @@ func LoadMoviesByGenre(genre string) []Movie {
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
 
-	opts := options.Find().SetProjection(bson.D{{"_id", 1}, {"image_url", 1}, {"title", 1}, {"type", 1},})
+	// opts := options.Find().SetProjection(bson.D{{"_id", 1}, {"image_url", 1}, {"title", 1}, {"type", 1},})
 
-	cursor, err := collection.Find(ctx, bson.M{"type": "Tv-Show", "genre": genre}, opts)
+	cursor, err := collection.Find(ctx, bson.M{"type": "Tv-Show", "genre": genre})//, opts)
 	if err != nil {
 		variables.SaveError(err, "movies", "LoadMoviesByGenre")
 		return Movies

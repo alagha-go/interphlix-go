@@ -10,6 +10,11 @@ import (
 )
 
 
+func init() {
+	LoadGenres()
+	go ListenForGenresCollection()
+}
+
 func LoadGenres() {
 	var documents []interface{}
 	ctx := context.Background()

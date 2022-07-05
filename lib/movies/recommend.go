@@ -21,16 +21,16 @@ func GetRecommendationMovies() ([]byte, int) {
 
 	Genres := genres.GetGenres()
 
-	TrendingMovies := LoadTrendingMovies(0, MoviesLimit)
-	FeaturedMovies := LoadFeaturedMovies(0, MoviesLimit)
-	PopularMovies := LoadPoPularMovies(0, MoviesLimit)
-	PopularTvShows := LoadPoPularTvShows(0, MoviesLimit)
+	TrendingMovies := LoadTrendingMovies(0, MoviesLimit, recommendation.Seed)
+	FeaturedMovies := LoadFeaturedMovies(0, MoviesLimit, recommendation.Seed)
+	PopularMovies := LoadPoPularMovies(0, MoviesLimit, recommendation.Seed)
+	PopularTvShows := LoadPoPularTvShows(0, MoviesLimit, recommendation.Seed)
 
 	Categories := []Category{
-		{Title: "Trending", Path: "/movies/trending", Movies: RandomMovies(recommendation.Seed, TrendingMovies)},
-		{Title: "Featured", Path: "/movies/featured", Movies: RandomMovies(recommendation.Seed, FeaturedMovies)},
-		{Title: "Popular Movies", Path: "/movies/popular", Movies: RandomMovies(recommendation.Seed, PopularMovies)},
-		{Title: "Popular Tvs", Path: "/tv-shows/popular", Movies: RandomMovies(recommendation.Seed, PopularTvShows)},
+		{Title: "Trending", Path: "/movies/trending", Movies: TrendingMovies},
+		{Title: "Featured", Path: "/movies/featured", Movies: FeaturedMovies},
+		{Title: "Popular Movies", Path: "/movies/popular", Movies: PopularMovies},
+		{Title: "Popular Tvs", Path: "/tv-shows/popular", Movies: PopularTvShows},
 	}
 
 	recommendation.Categories = append(recommendation.Categories, Categories...)
