@@ -12,7 +12,7 @@ import (
 func LoadFeaturedMovies(start, end int, seed int64) []Movie {
 	var Movies []Movie
 	ctx := context.Background()
-	collection := variables.Client.Database("Interphlix").Collection("Movies")
+	collection := variables.Local.Database("Interphlix").Collection("Movies")
 
 	opts := options.Find().SetProjection(bson.D{{"_id", 1}, {"image_url", 1}, {"title", 1}, {"type", 1},})
 
@@ -38,7 +38,7 @@ func LoadFeaturedMovies(start, end int, seed int64) []Movie {
 func LoadTrendingMovies(start, end int, seed int64) []Movie {
 	var Movies []Movie
 	ctx := context.Background()
-	collection := variables.Client.Database("Interphlix").Collection("Movies")
+	collection := variables.Local.Database("Interphlix").Collection("Movies")
 
 	opts := options.Find().SetProjection(bson.D{{"_id", 1}, {"image_url", 1}, {"title", 1}, {"type", 1},})
 
@@ -65,7 +65,7 @@ func LoadTrendingMovies(start, end int, seed int64) []Movie {
 func LoadPoPularMovies(start, end int, seed int64) []Movie {
 	var Movies []Movie
 	ctx := context.Background()
-	collection := variables.Client.Database("Interphlix").Collection("Movies")
+	collection := variables.Local.Database("Interphlix").Collection("Movies")
 
 	opts := options.Find().SetProjection(bson.D{{"_id", 1}, {"image_url", 1}, {"title", 1}, {"type", 1},})
 
@@ -91,7 +91,7 @@ func LoadPoPularMovies(start, end int, seed int64) []Movie {
 func LoadPoPularTvShows(start, end int, seed int64) []Movie {
 	var Movies []Movie
 	ctx := context.Background()
-	collection := variables.Client.Database("Interphlix").Collection("Movies")
+	collection := variables.Local.Database("Interphlix").Collection("Movies")
 
 	opts := options.Find().SetProjection(bson.D{{"_id", 1}, {"image_url", 1}, {"title", 1}, {"type", 1},})
 
@@ -117,7 +117,7 @@ func LoadPoPularTvShows(start, end int, seed int64) []Movie {
 func LoadMoviesByGenre(genre string) []Movie {
 	var Movies []Movie
 	ctx := context.Background()
-	collection := variables.Client.Database("Interphlix").Collection("Movies")
+	collection := variables.Local.Database("Interphlix").Collection("Movies")
 
 	opts := options.Find().SetProjection(bson.D{{"_id", 1}, {"image_url", 1}, {"title", 1}, {"type", 1},})
 
