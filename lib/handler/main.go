@@ -28,8 +28,7 @@ func Main() {
 	Router.HandleFunc("/login/redirect", accounts.Redirect).Methods("GET")
 	Router.HandleFunc("/apis/sign-up/google", accounts.GoogleSignUp).Methods("GET")
 	Router.HandleFunc("/apis/login/google", accounts.GoogleLogin).Methods("GET")
-	
-	
+
 	// routes to work on projects
 	Router.HandleFunc("/apis/projects/create", projects.CreateProject).Methods("POST")
 	Router.HandleFunc("/apis/projects/{projectId}/keys/create", projects.GenerateApiKey).Methods("POST")
@@ -45,6 +44,7 @@ func Main() {
 	Router.HandleFunc("/apis/home", movies.GetRecommendationMovies).Methods("GET")
 	Router.HandleFunc("/apis/movies/{id}", movies.GetMovie).Methods("GET")
 	Router.HandleFunc("/apis/movies/seasons/{id}/episodes", movies.GetEpisodes).Methods("GET")
+	Router.HandleFunc("/apis/genres", movies.GetGenres).Methods("GET")
 	Router.HandleFunc("/apis/movies/{id}/seasons", movies.GetSeasons).Methods("GET")
 	Router.HandleFunc("/apis/{type}/{genre}", movies.GetMovies).Methods("GET")
 }

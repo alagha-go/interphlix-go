@@ -20,4 +20,6 @@ var (
 	GetMovie = "get movie"
 	GetSeasons = "get seasons"
 	GetEpisode = "get episodes"
+	GetGenres = "get genres"
+	GetTypes = "get types"
 )
