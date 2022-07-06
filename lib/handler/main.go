@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"interphlix/lib/handler/accounts"
 	"interphlix/lib/handler/movies"
 	"interphlix/lib/handler/projects"
@@ -17,6 +18,7 @@ func init() {
 }
 
 func Main() {
+	fmt.Println("server started successfully")
 	// routes to work on account
 	Router.HandleFunc("/apis/sign-up", accounts.SignUp).Methods("POST")
 	Router.HandleFunc("/apis/login", accounts.Login).Methods("POST")

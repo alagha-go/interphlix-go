@@ -16,4 +16,5 @@ var (
 	AddSeason = "add season to a movie"
 	AddEpisode = "add episode to a season"
 	GetRecommend = "get recommendation movies"
+	GetMovies = "get movies"
 )

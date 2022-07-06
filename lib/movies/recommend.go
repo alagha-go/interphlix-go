@@ -23,20 +23,20 @@ func GetRecommendationMovies() ([]byte, int) {
 
 	TrendingMovies := LoadTrendingMovies(0, MoviesLimit, recommendation.Seed)
 	FeaturedMovies := LoadFeaturedMovies(0, MoviesLimit, recommendation.Seed)
-	PopularMovies := LoadPoPularMovies(0, MoviesLimit, recommendation.Seed)
-	PopularTvShows := LoadPoPularTvShows(0, MoviesLimit, recommendation.Seed)
+	PopularMovies := LoadPopulareContent(0, MoviesLimit, recommendation.Seed, "Movie")
+	PopularTvShows := LoadPopulareContent(0, MoviesLimit, recommendation.Seed, "Tv-Show")
 
 	Categories := []Category{
-		{Title: "Trending", Path: "/movies/trending", Movies: TrendingMovies},
-		{Title: "Featured", Path: "/movies/featured", Movies: FeaturedMovies},
-		{Title: "Popular Movies", Path: "/movies/popular", Movies: PopularMovies},
-		{Title: "Popular Tvs", Path: "/tv-shows/popular", Movies: PopularTvShows},
+		{Title: "Trending", Path: "/all/trending", Movies: TrendingMovies},
+		{Title: "Featured", Path: "/all/featured", Movies: FeaturedMovies},
+		{Title: "Popular Movies", Path: "/Movie/popular", Movies: PopularMovies},
+		{Title: "Popular Tvs", Path: "/Tv-Show/popular", Movies: PopularTvShows},
 	}
 
 	recommendation.Categories = append(recommendation.Categories, Categories...)
 
 	for index := range Genres {
-		category := Category{Title: Genres[index].Title, Path: fmt.Sprintf("/movies/%s", Genres[index].Title), Movies: RandomMovies(recommendation.Seed, LoadMoviesByGenre(Genres[index].Title))}
+		category := Category{Title: Genres[index].Title, Path: fmt.Sprintf("/all/%s", Genres[index].Title), Movies: RandomMovies(recommendation.Seed, LoadMoviesByGenre(Genres[index].Title))}
 		if len(category.Movies) > MoviesLimit {
 			category.Movies = category.Movies[:MoviesLimit]
 		}
