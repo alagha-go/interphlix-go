@@ -154,7 +154,7 @@ func LoadMovie(ID primitive.ObjectID) (*Movie, error) {
 	collection := variables.Local.Database("Interphlix").Collection("Movies")
 	var Movie Movie
 
-	opts := options.FindOne().SetProjection(bson.D{{"page_url", 0}, {"server", 0}, {"servers", 0}, {"seasons", 0},})
+	opts := options.FindOne().SetProjection(bson.D{{"page_url", 0}, {"server", 0}, {"servers", 0}, {"seasons", 0}, {"code", 0}})
 
 	err := collection.FindOne(ctx, bson.M{"_id": ID}, opts).Decode(&Movie)
 	if err != nil {
