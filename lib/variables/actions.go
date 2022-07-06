@@ -22,4 +22,5 @@ var (
 	GetEpisode = "get episodes"
 	GetGenres = "get genres"
 	GetTypes = "get types"
+	SearchMovie = "search movie"
 )
