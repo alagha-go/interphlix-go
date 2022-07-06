@@ -2,6 +2,7 @@ package movies
 
 import (
 	"interphlix/lib/movies"
+	"interphlix/lib/variables"
 	"net/http"
 	"strconv"
 
@@ -19,14 +20,18 @@ func GetMovies(res http.ResponseWriter, req *http.Request) {
 	}
 	round, err := strconv.Atoi(req.URL.Query().Get("round"))
 	if err != nil && seed != 0{
-		round = 1
+		res.WriteHeader(http.StatusBadRequest)
+		res.Write(variables.JsonMarshal(variables.Response{Action: variables.GetMovies, Failed: true, Error: variables.NoRound}))
+		return
 	}
 	if Type == "all" {
-		data, status := movies.GetMoviesByGenreAndType(Type, genre, round, seed)
+		data, status := movies.GetMoviesByGenre(genre, round, seed)
 		res.WriteHeader(status)
 		res.Write(data)
 		return
 	}
 
-	
+	data, status := movies.GetMoviesByGenreAndType(Type, genre, round, seed)
+	res.WriteHeader(status)
+	res.Write(data)
 }
