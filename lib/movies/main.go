@@ -10,9 +10,9 @@ import (
 )
 
 func init() {
-	go LoadMovies()
+	LoadMovies()
 	go ListenForMoviesCollection()
-	go IndexMovies()
+	IndexMovies()
 }
 
 

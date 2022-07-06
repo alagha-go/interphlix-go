@@ -11,7 +11,7 @@ import (
 
 
 func init() {
-	go LoadGenres()
+	LoadGenres()
 	go ListenForGenresCollection()
 }
 

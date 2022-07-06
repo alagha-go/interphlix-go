@@ -48,3 +48,28 @@ func GetSeasons(res http.ResponseWriter, req *http.Request) {
 	res.WriteHeader(http.StatusOK)
 	res.Write(variables.JsonMarshal(Response))
 }
+
+func GetEpisodes(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("content-type", "application/json")
+	Response := variables.Response{Action: variables.GetEpisode}
+	ID, err := primitive.ObjectIDFromHex(mux.Vars(req)["id"])
+	if err != nil {
+		Response := variables.Response{Action: variables.GetMovie, Failed: true, Error: variables.InvalidID}
+		res.WriteHeader(http.StatusBadRequest)
+		res.Write(variables.JsonMarshal(Response))
+		return
+	}
+	season := movies.Season{ID: ID}
+	err = season.SetEpisodes()
+	if err != nil {
+		Response.Failed = true
+		Response.Error = err.Error()
+		res.WriteHeader(http.StatusNotFound)
+		res.Write(variables.JsonMarshal(Response))
+		return
+	}
+	Response.Success = true
+	Response.Data = season.Episodes
+	res.WriteHeader(http.StatusOK)
+	res.Write(variables.JsonMarshal(Response))
+}
