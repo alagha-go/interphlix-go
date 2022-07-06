@@ -26,9 +26,9 @@ func Search(round int, querry string, Type ...string) ([]byte, int) {
 	ctx := context.Background()
 	collection := variables.Local.Database("Interphlix").Collection("Movies")
 
-	sort := bson.M{"score": bson.M{"$meta": "textScore"}}
 	projection := bson.M{"score": bson.M{"$meta": "textScore"}, "_id": 1, "image_url": 1, "type": 1, "title": 1}
-	opts := options.Find().SetSort(sort).SetProjection(projection)
+	sort := bson.M{"score": bson.M{"$meta": "textScore"}}
+	opts := options.Find().SetProjection(projection).SetSort(sort)
 
 	cursor, err := collection.Find(ctx, filter, opts)
 	if err != nil {
