@@ -28,7 +28,7 @@ const (
 	MovieExists = "movie with this code already exists"
 	MovieNotFound = "movie does not exists"
 	SeasonNotFound = "season does not exist"
-	NoRound = "if provide a seed you must provide a round number"
+	NoRound = "if you provide a seed you must provide a round number"
 )
 
 func SaveError(err error, pkg string, function string) {

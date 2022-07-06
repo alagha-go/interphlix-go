@@ -43,4 +43,5 @@ func Main() {
 	Router.HandleFunc("/apis/movies/{movieId}/seasons/upload", movies.UploadSeason).Methods("POST")
 	Router.HandleFunc("/apis/movies/{movieId}/seasons/{seasonId}/episodes/upload", movies.UploadEpisode).Methods("POST")
 	Router.HandleFunc("/apis/home", movies.GetRecommendationMovies).Methods("GET")
+	Router.HandleFunc("/apis/{type}/{genre}", movies.GetMovies).Methods("GET")
 }

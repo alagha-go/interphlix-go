@@ -27,17 +27,18 @@ func GetMoviesByGenre(genre string, round int, seed int64) ([]byte, int) {
 		if seed != 0 {
 			Movies = RandomMovies(seed, Movies)
 		}
+		if start > len(Movies) {
+			Movies = []Movie{}
+		}else if end > len(Movies) {
+			Movies = Movies[start:]
+		}else {
+			Movies = Movies[start:end]
+		}
 	}
 
 
-	if start > len(Movies) {
-		return variables.JsonMarshal(Response), http.StatusOK
-	}else if end > len(Movies) {
-		Response.Data = Movies[start:]
-		return variables.JsonMarshal(Response), http.StatusOK
-	}
 
-	Response.Data = Movies[start:end]
+	Response.Data = Movies
 
 	return variables.JsonMarshal(Response), http.StatusOK
 }
@@ -63,16 +64,16 @@ func GetMoviesByGenreAndType(Type, genre string, round int, seed int64) ([]byte,
 		if seed != 0 {
 			Movies = RandomMovies(seed, Movies)
 		}
+		if start > len(Movies) {
+			Movies = []Movie{}
+		}else if end > len(Movies) {
+			Movies = Movies[start:]
+		}else {
+			Movies = Movies[start:end]
+		}
 	}
 
-	if start > len(Movies) {
-		return variables.JsonMarshal(Response), http.StatusOK
-	}else if end > len(Movies) {
-		Response.Data = Movies[start:]
-		return variables.JsonMarshal(Response), http.StatusOK
-	}
-
-	Response.Data = Movies[start:end]
+	Response.Data = Movies
 
 	return variables.JsonMarshal(Response), http.StatusOK
 }
