@@ -11,9 +11,9 @@ import (
 
 
 func init() {
-	LoadCasts()
+	// LoadCasts()
 	go ListenForCasts()
-	IndexCasts()
+	// IndexCasts()
 }
 
 

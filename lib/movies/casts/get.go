@@ -26,7 +26,7 @@ func GetCasts(round int) ([]byte, int) {
 	ctx := context.Background()
 	collection := variables.Local.Database("Interphlix").Collection("Casts")
 
-	opts := options.Find().SetProjection(bson.M{"_id": 1, "name": 1})
+	opts := options.Find().SetProjection(bson.M{"_id": 1, "name": 1, "profile_path": 1})
 
 	cursor, err := collection.Find(ctx, bson.M{}, opts)
 	if err != nil {

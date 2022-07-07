@@ -15,7 +15,7 @@ func IndexMovies() {
 	collection := variables.Local.Database("Interphlix").Collection("Movies")
 
 	model := mongo.IndexModel{
-		Keys: bson.M{"title": "text", "casts": "text", "genre": "text"},
+		Keys: bson.D{{"title", "text"}, {"casts", "text"}, {"genre", "text"}},
 		Options: options.Index().SetName("Movies"),
 	}
 

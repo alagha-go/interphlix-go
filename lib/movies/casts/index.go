@@ -15,8 +15,8 @@ func IndexCasts() {
 	collection := variables.Local.Database("Interphlix").Collection("Casts")
 
 	model := mongo.IndexModel{
-		Keys: bson.M{"name": "text", "also_known_as": "text"},
-		Options: options.Index().SetName("Movies"),
+		Keys: bson.D{{"name", "text"}, {"also_known_as", "text"}},
+		Options: options.Index().SetName("Casts"),
 	}
 
 	_, err := collection.Indexes().CreateOne(ctx, model)
