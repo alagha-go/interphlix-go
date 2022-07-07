@@ -11,7 +11,7 @@ import (
 )
 
 // get cast with the name
-func GetCastByName(name string) Cast {
+func LoadCastByName(name string) Cast {
 	var Cast Cast
 	ctx := context.Background()
 	collection := variables.Local.Database("Interphlix").Collection("Casts")
@@ -23,7 +23,7 @@ func GetCastByName(name string) Cast {
 
 
 // get cast with the id
-func GetCastByID(ID primitive.ObjectID) Cast {
+func LoadCastByID(ID primitive.ObjectID) Cast {
 	var Cast Cast
 	ctx := context.Background()
 	collection := variables.Local.Database("Interphlix").Collection("Casts")

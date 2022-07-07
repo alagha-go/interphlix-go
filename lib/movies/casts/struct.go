@@ -25,3 +25,22 @@ type Cast struct {
 	Popularity         					float64     					`json:"popularity,omitempty" bson:"popularity,omitempty"`
 	ProfilePath        					string      					`json:"profile_path,omitempty" bson:"profile_path,omitempty"`
 }
+
+
+type Response struct {
+	Page         int64    `json:"page"`         
+	Results      []Result `json:"results"`      
+	TotalPages   int64    `json:"total_pages"`  
+	TotalResults int64    `json:"total_results"`
+}
+
+type Result struct {
+	Adult              bool          `json:"adult"`               
+	Gender             int64         `json:"gender"`              
+	ID                 int64         `json:"id"`                  
+	KnownFor           []interface{} `json:"known_for"`           
+	KnownForDepartment string        `json:"known_for_department"`
+	Name               string        `json:"name"`                
+	Popularity         float64       `json:"popularity"`          
+	ProfilePath        string        `json:"profile_path"`        
+}
