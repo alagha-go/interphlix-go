@@ -10,6 +10,7 @@ import (
 )
 
 func Search(round int, querry string, Type ...string) ([]byte, int) {
+	allowDiskUse := true
 	var Movies []Movie
 	Response := variables.Response{Action: variables.SearchMovie}
 	filter := bson.M{"$text": bson.M{"$search": querry}}
@@ -29,6 +30,7 @@ func Search(round int, querry string, Type ...string) ([]byte, int) {
 	projection := bson.M{"score": bson.M{"$meta": "textScore"}, "_id": 1, "image_url": 1, "type": 1, "title": 1}
 	sort := bson.M{"score": bson.M{"$meta": "textScore"}}
 	opts := options.Find().SetProjection(projection).SetSort(sort)
+	opts.AllowDiskUse = &allowDiskUse
 
 	cursor, err := collection.Find(ctx, filter, opts)
 	if err != nil {
