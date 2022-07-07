@@ -1,8 +1,6 @@
 package casts
 
 import (
-	"time"
-
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -14,8 +12,8 @@ type Cast struct {
 	Name               					string      					`json:"name,omitempty" bson:"name,omitempty"`
 	AlsoKnownAs        					[]string    					`json:"also_known_as,omitempty" bson:"also_known_as,omitempty"`
 	Biography          					string      					`json:"biography,omitempty" bson:"biography,omitempty"`
-	Birthday           					time.Time      					`json:"birthday,omitempty" bson:"birthday,omitempty"`
-	Deathday           					time.Time 						`json:"deathday,omitempty" bson:"deathday,omitempty"`
+	Birthday           					string      					`json:"birthday,omitempty" bson:"birthday,omitempty"`
+	Deathday           					string 							`json:"deathday,omitempty" bson:"deathday,omitempty"`
 	Gender             					int64       					`json:"gender,omitempty" bson:"gender,omitempty"`
 	Homepage           					interface{} 					`json:"homepage,omitempty" bson:"homepage,omitempty"`
 	TmdbID                 				int64       					`json:"tmdb_id,omitempty" bson:"tmdb_id,omitempty"`

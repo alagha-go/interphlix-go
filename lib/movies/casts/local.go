@@ -11,7 +11,7 @@ import (
 // add cast to the local database
 func (cast *Cast) AddToLocal() {
 	if cast.Exists() {
-		cast.Update()
+		cast.UpdateLocal()
 		return
 	}
 	ctx := context.Background()

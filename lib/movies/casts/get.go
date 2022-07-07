@@ -61,7 +61,7 @@ func GetCast(name string, ID *primitive.ObjectID) ([]byte, int) {
 	if ID != nil {
 		Cast := LoadCastByID(*ID)
 		if Cast.KnownForDepartment == "" {
-			Cast := GetCastInfo(Cast.Name)
+			Cast = GetCastInfo(Cast.Name)
 			Cast.ID = ID
 			Cast.Update()
 		}
@@ -72,7 +72,7 @@ func GetCast(name string, ID *primitive.ObjectID) ([]byte, int) {
 	Cast := LoadCastByName(name)
 	ID = Cast.ID
 	if Cast.KnownForDepartment == "" {
-		Cast := GetCastInfo(Cast.Name)
+		Cast = GetCastInfo(Cast.Name)
 		Cast.ID = ID
 		Cast.Update()
 	}
