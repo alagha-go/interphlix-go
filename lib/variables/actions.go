@@ -23,4 +23,6 @@ var (
 	GetGenres = "get genres"
 	GetTypes = "get types"
 	SearchMovie = "search movie"
+	GetCasts = "get casts"
+	GetCast = "get cast info"
 )

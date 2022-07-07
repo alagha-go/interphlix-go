@@ -29,6 +29,7 @@ const (
 	MovieNotFound = "movie does not exists"
 	SeasonNotFound = "season does not exist"
 	NoRound = "if you provide a seed you must provide a round number"
+	CastNotFound = "cast not found"
 )
 
 func SaveError(err error, pkg string, function string) {
