@@ -25,4 +25,5 @@ var (
 	SearchMovie = "search movie"
 	GetCasts = "get casts"
 	GetCast = "get cast info"
+	SearchCast = "search cast"
 )

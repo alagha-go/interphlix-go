@@ -9,11 +9,11 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func Search(round int, querry string, Type ...string) ([]byte, int) {
+func Search(round int, query string, Type ...string) ([]byte, int) {
 	allowDiskUse := true
 	var Movies []Movie
 	Response := variables.Response{Action: variables.SearchMovie}
-	filter := bson.M{"$text": bson.M{"$search": querry}}
+	filter := bson.M{"$text": bson.M{"$search": query}}
 	start := 0
 	if round > 0 {
 		start = (round*MoviesLimit) - MoviesLimit
@@ -21,7 +21,7 @@ func Search(round int, querry string, Type ...string) ([]byte, int) {
 	end := start+MoviesLimit
 
 	if len(Type) > 0 {
-		filter = bson.M{"type": Type[0], "$text": bson.M{"$search": querry}}
+		filter = bson.M{"type": Type[0], "$text": bson.M{"$search": query}}
 	}
 
 	ctx := context.Background()

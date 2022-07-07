@@ -2,6 +2,7 @@ package movies
 
 import (
 	"interphlix/lib/movies"
+	"interphlix/lib/movies/casts"
 	"net/http"
 	"strconv"
 
@@ -25,6 +26,19 @@ func Search(res http.ResponseWriter, req *http.Request) {
 	}
 
 	data, status := movies.Search(round, query, Type)
+	res.WriteHeader(status)
+	res.Write(data)
+}
+
+
+func SearchCast(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("content-type", "application/json")
+	query := req.URL.Query().Get("query")
+	round, _ := strconv.Atoi(req.URL.Query().Get("round"))
+	if round < 0 {
+		round = 0
+	}
+	data, status := casts.Search(round, query)
 	res.WriteHeader(status)
 	res.Write(data)
 }
