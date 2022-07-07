@@ -13,6 +13,7 @@ import (
 func init() {
 	LoadCasts()
 	go ListenForCasts()
+	IndexCasts()
 }
 
 
