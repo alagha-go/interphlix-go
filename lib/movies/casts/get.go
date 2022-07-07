@@ -10,8 +10,17 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+var (
+	CastsLimit = 30
+)
+
 // get casts
 func GetCasts(round int) ([]byte, int) {
+	start := 0
+	if round > 0 {
+		start = (round*CastsLimit) - CastsLimit
+	}
+	end := start+CastsLimit
 	Response := variables.Response{Action: variables.GetCasts}
 	var Casts []Cast
 	ctx := context.Background()
@@ -32,8 +41,16 @@ func GetCasts(round int) ([]byte, int) {
 		Response.Error = variables.InternalServerError
 		return variables.JsonMarshal(Response), http.StatusInternalServerError
 	}
+
+	if start > len(Casts) {
+		Response.Data = []Cast{}
+	}else if end > len(Casts) {
+		Response.Data = Casts[start:]
+	}else {
+		Response.Data = Casts[start:end]
+	}
+
 	Response.Success = true
-	Response.Data = Casts
 	return variables.JsonMarshal(Response), http.StatusOK
 }
 
