@@ -11,7 +11,6 @@ import (
 
 func (cast *Cast) Create() {
 	if cast.Exists() {
-		cast.Update()
 		return
 	}
 	ctx := context.Background()
@@ -35,7 +34,7 @@ func (cast *Cast) Update() {
 }
 
 
-
+// check if cast exists
 func (cast *Cast) Exists() bool {
 	var Cast Cast
 	ctx := context.Background()
@@ -45,6 +44,7 @@ func (cast *Cast) Exists() bool {
 	return err == nil
 }
 
+// give the cast a new id and make sure it is not duplicate
 func (cast *Cast) NewID() {
 	var Cast Cast
 	ID := primitive.NewObjectID()
