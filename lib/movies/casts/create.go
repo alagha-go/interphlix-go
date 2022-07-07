@@ -23,6 +23,9 @@ func (cast *Cast) Create() {
 
 
 func (cast *Cast) Update() {
+	if cast.KnownForDepartment == "" {
+		return
+	}
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Casts")
 
