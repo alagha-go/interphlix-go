@@ -2,6 +2,8 @@ package movies
 
 import (
 	"context"
+	"interphlix/lib/movies/casts"
+	"interphlix/lib/movies/genres"
 	"interphlix/lib/variables"
 	"net/http"
 	"strings"
@@ -20,9 +22,13 @@ func (movie *Movie) Upload() ([]byte, int) {
 		Response.Error = variables.MovieExists
 		return variables.JsonMarshal(Response), http.StatusConflict
 	}
+	
+	// make sure Movie's ID is a valid ID
 	if strings.Contains(movie.ID.Hex(), "000000") {
 		movie.NewID()
 	}
+
+	// make sure all objects have valid ID
 	for sindex := range movie.Seasons {
 		for eindex := range movie.Seasons[sindex].Episodes {
 			if strings.Contains(movie.Seasons[sindex].Episodes[eindex].ID.Hex(), "000000") {
@@ -33,6 +39,20 @@ func (movie *Movie) Upload() ([]byte, int) {
 			movie.Seasons[sindex].ID = primitive.NewObjectID()
 		}
 	}
+
+	// craete all the casts
+	for index := range movie.Casts {
+		cast := &casts.Cast{Name: movie.Casts[index]}
+		cast.Create()
+	}
+
+	// craete all the genres
+	for index := range movie.Genres {
+		genre := &genres.Genre{Title: movie.Genres[index]}
+		genre.Create()
+	}
+
+	// upload movie to the database
 	_, err := collection.InsertOne(ctx, movie)
 	if err != nil {
 		Response.Failed = true
