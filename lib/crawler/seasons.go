@@ -32,20 +32,20 @@ func CollectAllSeasons(element *colly.HTMLElement, Movie *movies.Movie) {
 
 func CheckForNewSeasons(Movie *movies.Movie) {
 	Movie.SetSeasons()
-	Seasons := Movie.Seasons
+	movie := movies.Movie{Seasons: Movie.Seasons}
 	Movie.Seasons = []movies.Season{}
 	GetSeasons(Movie)
 
 	for index := range Movie.Seasons {
-		if !SeasonExistInSeasons(&Movie.Seasons[index], Seasons) {
+		if !SeasonExistInSeasons(&Movie.Seasons[index], &movie) {
 			Movie.AddSeason(&Movie.Seasons[index])
 		}
 	}
 }
 
-func SeasonExistInSeasons(Season *movies.Season, Seasons []movies.Season) bool {
-	for index := range Seasons {
-		if Seasons[index].Code == Season.Code {
+func SeasonExistInSeasons(Season *movies.Season, Movie *movies.Movie) bool {
+	for index := range Movie.Seasons {
+		if Movie.Seasons[index].Code == Season.Code {
 			return true
 		}
 	}
