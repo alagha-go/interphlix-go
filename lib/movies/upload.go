@@ -49,6 +49,7 @@ func (movie *Movie) Upload() ([]byte, int) {
 	// craete all the genres
 	for index := range movie.Genres {
 		genre := &genres.Genre{Title: movie.Genres[index]}
+		genre.Types = append(genre.Types, movie.Type)
 		genre.Create()
 	}
 

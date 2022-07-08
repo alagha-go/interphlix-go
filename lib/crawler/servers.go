@@ -19,7 +19,9 @@ func (Video *Setter)SetServers() {
             server.WatchID = element.ChildAttr("a", "data-linkid")
             server.Name = element.ChildAttr("a", "title")
             server.Name = strings.ReplaceAll(server.Name, "Server ", "")
-           	Video.Servers = append(Video.Servers, server)
+           	if ServerExists(server, Video.Servers) {
+				Video.Servers = append(Video.Servers, server)
+			}
         })
     })
     collector.Visit(Video.Url)
@@ -68,18 +70,11 @@ func (Video *Setter)AddServer() {
 
 func (Video *Setter)AddServers(element *colly.HTMLElement) {
     element.ForEach(".dl-site", func(_ int, element *colly.HTMLElement) {
-		var exist bool = false
 		var server movies.Server
 		server.ID = primitive.NewObjectID()
 		server.Name = element.ChildText(".site-name")
 		server.Url = element.ChildAttr("a", "href")
-		for index, serve := range Video.Servers {
-			if serve.Name == server.Name {
-				Video.Servers[index].Url = server.Url
-				exist = true
-			}
-		}
-		if !exist {
+		if ServerExists(server, Video.Servers) {
 			Video.Servers = append(Video.Servers, server)
 		}
 	})
@@ -93,4 +88,14 @@ func (Video *Setter) SetServer() {
 			Video.Server = &Video.Servers[index]
 		}
 	}
+}
+
+
+func ServerExists(Server movies.Server, Servers []movies.Server) bool {
+	for index := range Servers {
+		if Servers[index].Name == Server.Name {
+			return true
+		}
+	}
+	return false
 }
