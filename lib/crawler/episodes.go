@@ -32,6 +32,12 @@ func CollectAllEpisodes(element *colly.HTMLElement, Season *movies.Season) {
 		Episode.Name = Episode.Name[index+1:]
 		Episode.Name = strings.ReplaceAll(Episode.Name, "                    : ", "")
 		Episode.Code = element.ChildAttr("a", "data-id")
+		url := "https://tinyzonetv.to/ajax/v2/episode/servers/"+ Episode.Code
+		setter := Setter{Url: url}
+		setter.SetServers()
+		Episode.Server = setter.Server
+		Episode.Servers = setter.Servers
+		Episode.Available = setter.Available
 		Season.Episodes = append(Season.Episodes, Episode)
 	})
 }

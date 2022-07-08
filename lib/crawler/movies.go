@@ -61,6 +61,12 @@ func CollectMovies(element *colly.HTMLElement, Type string) {
 		Movie.Type = Type
 		if !Movie.Exists() {
 			CollectMovieContent(&Movie)
+			url := "https://tinyzonetv.to/ajax/movie/episodes/"+ Movie.Code
+			setter := Setter{Url: url}
+			setter.SetServers()
+			Movie.Server = setter.Server
+			Movie.Servers = setter.Servers
+			Movie.Available = setter.Available
 			Movie.Upload()
 		}else {
 			if Type == "Movie" {
