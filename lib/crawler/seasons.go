@@ -39,7 +39,9 @@ func CheckForNewSeasons(Movie *movies.Movie) {
 	for index := range Movie.Seasons {
 		if !SeasonExistInSeasons(&Movie.Seasons[index], &movie) {
 			Movie.AddSeason(&Movie.Seasons[index])
+			CheckForNewEpisodes(&Movie.Seasons[index], &Movie.ID)
 		}
+		CheckForNewEpisodes(&Movie.Seasons[index], &Movie.ID)
 	}
 }
 
