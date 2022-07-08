@@ -4,9 +4,28 @@ import (
 	"log"
 	"strconv"
 	"strings"
+	"sync"
+	"time"
 
 	"github.com/gocolly/colly"
 )
+
+func init() {
+	go StartCrawler()
+}
+
+
+func StartCrawler() {
+	for {
+		var wg sync.WaitGroup
+		wg.Add(1)
+		go CollectAllMovies(&wg, GetNumberOfPages("https://tinyzonetv.to/movie"))
+		wg.Add(1)
+		go CollectTvShows(&wg, GetNumberOfPages("https://tinyzonetv.to/tv-show"))
+		wg.Wait()
+		time.Sleep(48*time.Hour)
+	}
+}
 
 
 func GetNumberOfPages(url string) int {
