@@ -1,8 +1,9 @@
 package main
 
 import (
-	"interphlix/lib/handler"
 	_ "interphlix/lib/variables"
+	_"interphlix/lib/crawler"
+	"interphlix/lib/handler"
 	"log"
 	"net/http"
 )
