@@ -35,3 +35,16 @@ func GetMovies(res http.ResponseWriter, req *http.Request) {
 	res.WriteHeader(status)
 	res.Write(data)
 }
+
+
+func GetMoviesByCast(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("content-type", "application/json")
+	id := mux.Vars(req)["id"]
+	round, err := strconv.Atoi(req.URL.Query().Get("round"))
+	if err != nil {
+		round = 1
+	}
+	data, status := movies.GetMoviesByCast(id, round)
+	res.WriteHeader(status)
+	res.Write(data)
+}
