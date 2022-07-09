@@ -17,9 +17,12 @@ func (Video *Setter)SetServers() {
             var server movies.Server
 			server.ID = primitive.NewObjectID()
             server.WatchID = element.ChildAttr("a", "data-linkid")
+			if server.WatchID == "" {
+				server.WatchID = element.ChildAttr("a", "data-id")
+			}
             server.Name = element.ChildAttr("a", "title")
             server.Name = strings.ReplaceAll(server.Name, "Server ", "")
-           	if ServerExists(server, Video.Servers) {
+           	if !ServerExists(server, Video.Servers) {
 				Video.Servers = append(Video.Servers, server)
 			}
         })

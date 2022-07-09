@@ -48,6 +48,7 @@ func Main() {
 	Router.HandleFunc("/apis/casts", movies.GetCasts).Methods("GET")
 	Router.HandleFunc("/apis/casts/search", movies.SearchCast).Methods("GET")
 	Router.HandleFunc("/apis/casts/{id}", movies.GetCast).Methods("GET")
+	Router.HandleFunc("/apis/Tv-Show/{id}/new", movies.CheckForNewEpisodes).Methods("GET")
 	Router.HandleFunc("/apis/casts/{id}/movies", movies.GetMoviesByCast).Methods("GET")
 	Router.HandleFunc("/apis/{type}/search", movies.Search).Methods("GET")
 	Router.HandleFunc("/apis/movies/{id}/seasons", movies.GetSeasons).Methods("GET")

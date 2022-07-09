@@ -1,12 +1,14 @@
 package movies
 
 import (
+	"interphlix/lib/crawler"
 	"interphlix/lib/movies"
 	"interphlix/lib/variables"
 	"net/http"
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 
@@ -47,4 +49,32 @@ func GetMoviesByCast(res http.ResponseWriter, req *http.Request) {
 	data, status := movies.GetMoviesByCast(id, round)
 	res.WriteHeader(status)
 	res.Write(data)
+}
+
+
+func CheckForNewEpisodes(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("content-type", "application/json")
+	Response := variables.Response{Action: variables.CheckMovie}
+	ID, err := primitive.ObjectIDFromHex(mux.Vars(req)["id"])
+	if err != nil {
+		Response.Failed = true
+		Response.Error = variables.InvalidID
+		res.WriteHeader(http.StatusBadRequest)
+		res.Write(variables.JsonMarshal(Response))
+		return
+	}
+	movie := movies.Movie{ID: ID}
+	exists := movie.GetCode()
+	if !exists {
+		Response.Failed = true
+		Response.Error = variables.MovieNotFound
+		res.WriteHeader(http.StatusNotFound)
+		res.Write(variables.JsonMarshal(Response))
+		return
+	}
+	crawler.CheckForNewSeasons(&movie)
+	Response.Success = true
+	Response.Data = "done"
+	res.WriteHeader(http.StatusOK)
+	res.Write(variables.JsonMarshal(Response))
 }

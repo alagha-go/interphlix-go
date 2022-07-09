@@ -14,7 +14,7 @@ func GetEpisodes(Season *movies.Season) {
 	url := "https://tinyzonetv.to/ajax/v2/season/episodes/" + Season.Code
 
 	collector.OnHTML(".nav", func(element *colly.HTMLElement) {
-		
+		CollectAllEpisodes(element, Season)
 	})
 
 	collector.Visit(url)

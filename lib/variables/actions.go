@@ -26,4 +26,5 @@ var (
 	GetCasts = "get casts"
 	GetCast = "get cast info"
 	SearchCast = "search cast"
+	CheckMovie = "check for new episodes"
 )

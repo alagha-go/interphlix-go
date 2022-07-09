@@ -4,6 +4,7 @@ import (
 	"interphlix/lib/movies"
 
 	"github.com/gocolly/colly"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 
@@ -22,6 +23,7 @@ func GetSeasons(Movie *movies.Movie) {
 func CollectAllSeasons(element *colly.HTMLElement, Movie *movies.Movie) {
 	element.ForEach("a", func(index int, element *colly.HTMLElement) {
 		var Season movies.Season
+		Season.ID = primitive.NewObjectID()
 		Season.Index = index
 		Season.Code = element.Attr("data-id")
 		Season.Name = element.Text
@@ -37,19 +39,21 @@ func CheckForNewSeasons(Movie *movies.Movie) {
 	GetSeasons(Movie)
 
 	for index := range Movie.Seasons {
-		if !SeasonExistInSeasons(&Movie.Seasons[index], &movie) {
+		exists, i := SeasonExistInSeasons(&Movie.Seasons[index], &movie)
+		if !exists {
 			Movie.AddSeason(&Movie.Seasons[index])
 			CheckForNewEpisodes(&Movie.Seasons[index], &Movie.ID)
+			continue
 		}
-		CheckForNewEpisodes(&Movie.Seasons[index], &Movie.ID)
+		CheckForNewEpisodes(&movie.Seasons[i], &Movie.ID)
 	}
 }
 
-func SeasonExistInSeasons(Season *movies.Season, Movie *movies.Movie) bool {
+func SeasonExistInSeasons(Season *movies.Season, Movie *movies.Movie) (bool, int) {
 	for index := range Movie.Seasons {
 		if Movie.Seasons[index].Code == Season.Code {
-			return true
+			return true, index
 		}
 	}
-	return false
+	return false, 0
 }
