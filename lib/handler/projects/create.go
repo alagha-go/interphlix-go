@@ -2,8 +2,8 @@ package projects
 
 import (
 	"encoding/json"
-	"interphlix/lib/handler/accounts"
 	"interphlix/lib/projects"
+	"interphlix/lib/requests"
 	"interphlix/lib/variables"
 	"net/http"
 
@@ -24,7 +24,7 @@ func CreateProject(res http.ResponseWriter, req *http.Request) {
 		res.Write(variables.JsonMarshal(Response))
 		return
 	}
-	account, err := accounts.GetmyAccount(req)
+	account, err := requests.GetmyAccount(req)
 	if err != nil {
 		Response.Failed = true
 		Response.Error = variables.UserNotFound

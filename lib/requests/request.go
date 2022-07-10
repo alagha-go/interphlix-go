@@ -1,4 +1,4 @@
-package accounts
+package requests
 
 import (
 	"errors"
@@ -10,14 +10,18 @@ import (
 )
 
 
-func ValidateRequest(req *http.Request) error {
+func ValidateRequest(req *http.Request, res *http.ResponseWriter) error {
 	cookie, err := req.Cookie("token")
 	if err != nil {
 		return errors.New(variables.NoToken)
 	}
-	valid, _ := VerifyToken(cookie.Value)
+	valid, status := VerifyToken(cookie.Value)
 	if !valid {
 		return errors.New(variables.InvalidToken)
+	}
+	if status == http.StatusCreated {
+		cookie, _, _ := RefreshToken(cookie.Value)
+		http.SetCookie(*res, cookie)
 	}
 	return nil
 }

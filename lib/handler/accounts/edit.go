@@ -3,6 +3,7 @@ package accounts
 import (
 	"encoding/json"
 	"interphlix/lib/accounts"
+	"interphlix/lib/requests"
 	"interphlix/lib/variables"
 	"net/http"
 )
@@ -21,7 +22,7 @@ func ChangePassword(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	if account.Email == "" {
-		dbaccount, err := GetmyAccount(req)
+		dbaccount, err := requests.GetmyAccount(req)
 		if err != nil {
 			Response.Failed = true
 			Response.Error = variables.UserNotFound
@@ -56,7 +57,7 @@ func UpdateAccount(res http.ResponseWriter, req *http.Request) {
 		res.Write(variables.JsonMarshal(Response))
 		return
 	}
-	Account, err := GetmyAccount(req)
+	Account, err := requests.GetmyAccount(req)
 	if err != nil {
 		Response.Failed = true
 		Response.Error = err.Error()

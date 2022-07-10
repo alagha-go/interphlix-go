@@ -1,8 +1,8 @@
 package projects
 
 import (
-	"interphlix/lib/handler/accounts"
 	"interphlix/lib/projects"
+	"interphlix/lib/requests"
 	"interphlix/lib/variables"
 	"net/http"
 
@@ -14,7 +14,7 @@ import (
 func GetMyProjects(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
 	Response := variables.Response{Action: variables.GetProjects}
-	account, err := accounts.GetmyAccount(req)
+	account, err := requests.GetmyAccount(req)
 	if err != nil {
 		Response.Failed = true
 		Response.Error = err.Error()

@@ -1,4 +1,4 @@
-package accounts
+package requests
 
 import (
 	"errors"
@@ -31,12 +31,15 @@ func GenerateToken(account accounts.Account) (*http.Cookie, int, error) {
 	if err != nil {
 		return nil, http.StatusInternalServerError, errors.New("could not generate token")
 	}
-	return &http.Cookie{Name: "token", Value: tokenString, Domain: ".interphlix.com", Path: "/"}, http.StatusOK, nil
+	return &http.Cookie{Name: "token", Value: tokenString, Domain: ".interphlix.com", Path: "/", Expires: expires}, http.StatusOK, nil
 }
 
 
 func VerifyToken(tokenString string) (bool, int) {
+	var expiry time.Time
+	before := time.Now()
 	claims := &Claims{}
+	sub := -24*time.Hour
 
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 		secret := variables.LoadSecret()
@@ -53,7 +56,13 @@ func VerifyToken(tokenString string) (bool, int) {
 		return false, http.StatusUnauthorized
 	}
 
-	return true, http.StatusOK
+	expiry = time.Unix(claims.ExpiresAt, 0)
+	status := http.StatusOK
+	if before.After(expiry.Add(sub)) {
+		status = http.StatusCreated
+	}
+
+	return true, status
 }
 
 

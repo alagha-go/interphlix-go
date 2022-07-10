@@ -3,6 +3,7 @@ package accounts
 import (
 	"encoding/json"
 	"interphlix/lib/accounts"
+	"interphlix/lib/requests"
 	"interphlix/lib/variables"
 	"net/http"
 )
@@ -30,7 +31,7 @@ func SignUp(res http.ResponseWriter, req *http.Request) {
 	account.EmailVerified = false
 	data, status := accounts.CreateAccount(&account)
 	if status == 201 {
-		cookie, _, _ := GenerateToken(account)
+		cookie, _, _ := requests.GenerateToken(account)
 		http.SetCookie(res, cookie)
 	}
 	res.WriteHeader(status)

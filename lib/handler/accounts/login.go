@@ -3,6 +3,7 @@ package accounts
 import (
 	"encoding/json"
 	"interphlix/lib/accounts"
+	"interphlix/lib/requests"
 	"interphlix/lib/variables"
 	"net/http"
 )
@@ -32,7 +33,7 @@ func Redirect(res http.ResponseWriter, req *http.Request) {
 	account.SignUpMethod = "google"
 	data, status := accounts.CreateAccount(&account)
 	json.Unmarshal(data, &account)
-	cookie, status1, err := GenerateToken(account)
+	cookie, status1, err := requests.GenerateToken(account)
 	if err != nil {
 		res.WriteHeader(status1)
 		res.Write(variables.JsonMarshal(variables.Response{Action: variables.CreateUserAction}))
@@ -54,7 +55,7 @@ func Login(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	data, status := account.Login()
-	cookie, status1, err := GenerateToken(account)
+	cookie, status1, err := requests.GenerateToken(account)
 	if err != nil {
 		res.WriteHeader(status1)
 		res.Write(variables.JsonMarshal(variables.Response{Action: variables.Login}))
