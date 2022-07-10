@@ -1,10 +1,12 @@
 package handler
 
 import (
+	"encoding/json"
 	"fmt"
 	"interphlix/lib/handler/accounts"
 	"interphlix/lib/handler/movies"
 	"interphlix/lib/handler/projects"
+	"net/http"
 
 	"github.com/gorilla/mux"
 )
@@ -53,4 +55,13 @@ func Main() {
 	Router.HandleFunc("/apis/{type}/search", movies.Search).Methods("GET")
 	Router.HandleFunc("/apis/movies/{id}/seasons", movies.GetSeasons).Methods("GET")
 	Router.HandleFunc("/apis/{type}/{genre}", movies.GetMovies).Methods("GET")
+	Router.HandleFunc("/", Test).Methods("GET")
+}
+
+
+func Test(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("content-type", "application/json")
+	data, _ := json.Marshal(req.URL.Query())
+	fmt.Println(string(data))
+	json.NewEncoder(res).Encode(req.Header)
 }
