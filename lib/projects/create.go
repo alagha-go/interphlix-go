@@ -9,8 +9,12 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+var (
+	RequestsLimit = 50
+)
 
 func (project *Project) CreateProject() ([]byte, int) {
+	project.RequestsLimit = int64(RequestsLimit)
 	var Response variables.Response
 	Response.Action = variables.CreateProject
 	ctx := context.Background()
