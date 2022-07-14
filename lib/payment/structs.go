@@ -47,19 +47,19 @@ type Invoice struct {
 }
 
 type ConversionRate struct {
-	FromCurrency 					string 					`json:"from_currency,omitempty" bson:"from_currency,omitempty"`
-	ToCurrency 						string 					`json:"to_currency,omitempty" bson:"to_currency,omitempty"`
+	FromCurrency 					float64 					`json:"from_currency,omitempty" bson:"from_currency,omitempty"`
+	ToCurrency 						float64 					`json:"to_currency,omitempty" bson:"to_currency,omitempty"`
 }
 
 type Amount struct {
-	Coin 							string 						`json:"coin,omitempty" bson:"coin,omitempty"`
-	Currency 						string 						`json:"currency,omitempty" bson:"currency,omitempty"`
+	Coin 							float64 					`json:"coin,omitempty" bson:"coin,omitempty"`
+	Currency 						float64 					`json:"currency,omitempty" bson:"currency,omitempty"`
 }
 
 type PaymentHistory struct {
 	Txid         					string 						`json:"txid,omitempty" bson:"txid,omitempty"`
 	ExplorerURL  					string 						`json:"explorer_url,omitempty" bson:"explorer_url,omitempty"`
-	Amount       					string 						`json:"amount,omitempty" bson:"amount,omitempty"`
-	Date         					string 						`json:"date,omitempty" bson:"date,omitempty"`
+	Amount       					float64 					`json:"amount,omitempty" bson:"amount,omitempty"`
+	Date         					time.Time 					`json:"date,omitempty" bson:"date,omitempty"`
 	Confirmation 					int64  						`json:"confirmation,omitempty" bson:"confirmation,omitempty"`
 }
