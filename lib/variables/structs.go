@@ -23,4 +23,15 @@ type Secret struct {
 	MongoDBUrl							string						`json:"mongodb_url,omitempty" bson:"mongodb_url,omitempty"`
 	LocalUrl							string						`json:"local_url,omitempty" bson:"local_url,omitempty"`
 	JwtKey								string						`json:"jwtkey,omitempty" bson:"jwtkey,omitempty"`
+	Wallets								[]Wallet					`json:"wallets,omitempty" bson:"wallets,omitempty"`
+}
+
+type Wallet struct {
+	APIKey   							string 						`json:"api_key,omitempty" bson:"api_key,omitempty"`
+	Password 							string 						`json:"password,omitempty" bson:"password,omitempty"`
+	Currency 							string 						`json:"currency,omitempty" bson:"currency,omitempty"`
+	Coin     							string 						`json:"coin,omitempty" bson:"coin,omitempty"`
+	CoinIcon 							string 						`json:"coin_icon,omitempty" bson:"coin_icon,omitempty"`
+	Name     							string 						`json:"name,omitempty" bson:"name,omitempty"`
+	Expiry								int							`json:"expiry,omitempty" bson:"expiry,omitempty"`
 }
