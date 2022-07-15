@@ -38,7 +38,7 @@ func (cast *Cast) Update() {
 func (cast *Cast) Exists() bool {
 	var Cast Cast
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Casts")
+	collection := variables.Client.Database("Interphlix").Collection("Casts")
 
 	err := collection.FindOne(ctx, bson.M{"name": cast.Name}).Decode(&Cast)
 	return err == nil
@@ -49,7 +49,7 @@ func (cast *Cast) NewID() {
 	var Cast Cast
 	ID := primitive.NewObjectID()
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Casts")
+	collection := variables.Client.Database("Interphlix").Collection("Casts")
 
 	err := collection.FindOne(ctx, bson.M{"_id": ID}).Decode(&Cast)
 	if err == nil {

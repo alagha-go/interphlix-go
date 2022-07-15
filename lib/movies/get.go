@@ -109,7 +109,7 @@ func GetMoviesByCast(id string, round int) ([]byte, int) {
 	end := start+MoviesLimit
 
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Movies")
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
 	Response := variables.Response{Action: variables.GetMovies}
 	opts := options.Find().SetProjection(bson.M{"_id": 1, "image_url": 1, "title": 1, "type": 1,})
 

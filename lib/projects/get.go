@@ -20,7 +20,7 @@ func GetMyProjects(accountID primitive.ObjectID) ([]byte, int) {
 	var projects []Project
 	Response := variables.Response{Action: variables.GetProjects}
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Projects")
+	collection := variables.Client.Database("Interphlix").Collection("Projects")
 
 	opts := options.Find().SetProjection(bson.D{{"api_keys", 0}})
 
@@ -49,7 +49,7 @@ func (project *Project) GetApiKeys() ([]byte, int) {
 	var Project Project
 	Response := variables.Response{Action: variables.GetProjects}
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Projects")
+	collection := variables.Client.Database("Interphlix").Collection("Projects")
 
 	opts := options.FindOne().SetProjection(bson.D{{"api_keys", 1}})
 

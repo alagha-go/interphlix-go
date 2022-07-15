@@ -5,14 +5,20 @@ import (
 	"fmt"
 	"interphlix/lib/handler/accounts"
 	"interphlix/lib/handler/movies"
+	"interphlix/lib/handler/payments"
 	"interphlix/lib/handler/projects"
+	"interphlix/lib/requests"
 	"net/http"
 
+	gosocketio "github.com/ambelovsky/gosf-socketio"
+	"github.com/ambelovsky/gosf-socketio/transport"
 	"github.com/gorilla/mux"
 )
 
 var (
 	Router = mux.NewRouter()
+	ServeMux = http.NewServeMux()
+	Server = gosocketio.NewServer(transport.GetDefaultWebsocketTransport())
 )
 
 func init() {
@@ -20,6 +26,7 @@ func init() {
 }
 
 func Main() {
+	// ServeMux.Handle("/", Router)
 	fmt.Println("server started successfully")
 	// routes to work on account
 	Router.HandleFunc("/apis/sign-up", accounts.SignUp).Methods("POST")
@@ -55,13 +62,21 @@ func Main() {
 	Router.HandleFunc("/apis/{type}/search", movies.Search).Methods("GET")
 	Router.HandleFunc("/apis/movies/{id}/seasons", movies.GetSeasons).Methods("GET")
 	Router.HandleFunc("/apis/{type}/{genre}", movies.GetMovies).Methods("GET")
+	Router.HandleFunc("/hook", payments.Hook).Methods("POST")
+	Router.HandleFunc("/notify", payments.Notify).Methods("POST")
+	Router.HandleFunc("/success", payments.Success).Methods("POST")
+	Router.HandleFunc("/fail", payments.Fail).Methods("POST")
 	Router.HandleFunc("/", Test).Methods("GET")
+
+	Server.On(gosocketio.OnConnection, func(c *gosocketio.Channel) {
+		fmt.Println("Connected:", c.Ip())
+	})
+
+	ServeMux.Handle("/socket.io/", Server)
 }
 
 
 func Test(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	data, _ := json.Marshal(req.URL.Query())
-	fmt.Println(string(data))
-	json.NewEncoder(res).Encode(req.Header)
+	json.NewEncoder(res).Encode(requests.GetIpData(req))
 }

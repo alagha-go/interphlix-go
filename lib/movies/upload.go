@@ -137,7 +137,7 @@ func(season *Season) AddEpisode(episode *Episode, ID *primitive.ObjectID) ([]byt
 func (movie *Movie) Exists() bool {
 	var dbMovie Movie
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Movies")
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
 
 	err := collection.FindOne(ctx, bson.M{"code": movie.Code}).Decode(&dbMovie)
 	return err == nil
@@ -148,7 +148,7 @@ func (movie *Movie) NewID() {
 	var dbMovie Movie
 	ID := primitive.NewObjectID()
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Movies")
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
 
 	err := collection.FindOne(ctx, bson.M{"_id": ID}).Decode(&dbMovie)
 	if err == nil {

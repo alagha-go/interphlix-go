@@ -27,7 +27,9 @@ func (project *Project) Delete() ([]byte, int) {
 		Response.Error = variables.InternalServerError
 		return variables.JsonMarshal(Response), http.StatusInternalServerError
 	}
-	return project.Remove()
+	Response.Success = true
+	Response.Data = "project deleted"
+	return variables.JsonMarshal(Response), http.StatusOK
 }
 
 

@@ -26,7 +26,7 @@ func GetMovie(ID primitive.ObjectID) ([]byte, int) {
 
 func (movie *Movie) SetSeasons() error {
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Movies")
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
 	var Movie Movie
 
 	opts := options.FindOne().SetProjection(bson.M{"seasons.episodes": 0})
@@ -41,7 +41,7 @@ func (movie *Movie) SetSeasons() error {
 
 func (season *Season) SetEpisodes() error {
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Movies")
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
 	var movie Movie
 
 	opts := options.FindOne().SetProjection(bson.M{"seasons": bson.M{"$elemMatch": bson.M{"_id": season.ID}}})
@@ -64,7 +64,7 @@ func (season *Season) SetEpisodes() error {
 
 func (Movie *Movie) GetCode() bool {
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Movies")
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
 
 	opts := options.FindOne().SetProjection(bson.M{"_id": 1, "code": 1, "title": 1, "type": 1,})
 

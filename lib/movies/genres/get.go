@@ -10,7 +10,7 @@ import (
 
 func GetGenres() []Genre {
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Genres")
+	collection := variables.Client.Database("Interphlix").Collection("Genres")
 	var Genres []Genre
 	cursor, err := collection.Find(ctx, bson.M{})
 	if err != nil {
@@ -24,7 +24,7 @@ func GetGenres() []Genre {
 func GetGenresByType(Type ...string) []Genre {
 	filter := bson.M{}
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Genres")
+	collection := variables.Client.Database("Interphlix").Collection("Genres")
 	var Genres []Genre
 	opts := options.Find().SetProjection(bson.M{"types": 0})
 	if len(Type) > 0 {
@@ -42,7 +42,7 @@ func GetGenresByType(Type ...string) []Genre {
 func GetGenre(title string) *Genre {
 	var Genre *Genre
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Genres")
+	collection := variables.Client.Database("Interphlix").Collection("Genres")
 	collection.FindOne(ctx, bson.M{"title": title}).Decode(&Genre)
 	return Genre
 }

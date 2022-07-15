@@ -14,7 +14,7 @@ import (
 func LoadFeaturedMovies(start, end int, seed int64, Type ...string) []Movie {
 	var Movies []Movie
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Movies")
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
 
 	opts := options.Find().SetProjection(bson.M{"_id": 1, "image_url": 1, "title": 1, "type": 1,})
 
@@ -48,7 +48,7 @@ func LoadFeaturedMovies(start, end int, seed int64, Type ...string) []Movie {
 func LoadTrendingMovies(start, end int, seed int64, Type ...string) []Movie {
 	var Movies []Movie
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Movies")
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
 
 	opts := options.Find().SetProjection(bson.M{"_id": 1, "image_url": 1, "title": 1, "type": 1,})
 
@@ -82,7 +82,7 @@ func LoadTrendingMovies(start, end int, seed int64, Type ...string) []Movie {
 func LoadMoviesByGenre(genre string) []Movie {
 	var Movies []Movie
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Movies")
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
 
 	opts := options.Find().SetProjection(bson.M{"_id": 1, "image_url": 1, "title": 1, "type": 1,})
 
@@ -100,7 +100,7 @@ func LoadMoviesByGenre(genre string) []Movie {
 func LoadMoviesByGenreAndType(Type, genre string) []Movie {
 	var Movies []Movie
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Movies")
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
 
 	opts := options.Find().SetProjection(bson.M{"_id": 1, "image_url": 1, "title": 1, "type": 1,})
 
@@ -118,7 +118,7 @@ func LoadMoviesByGenreAndType(Type, genre string) []Movie {
 func LoadPopulareContent(start, end int, seed int64, Type ...string) []Movie {
 	var Movies []Movie
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Movies")
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
 
 	opts := options.Find().SetProjection(bson.M{"_id": 1, "image_url": 1, "title": 1, "type": 1,})
 
@@ -151,7 +151,7 @@ func LoadPopulareContent(start, end int, seed int64, Type ...string) []Movie {
 // load movie contents
 func LoadMovie(ID primitive.ObjectID) (*Movie, error) {
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Movies")
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
 	var Movie Movie
 
 	opts := options.FindOne().SetProjection(bson.M{"page_url": 0, "server": 0, "servers": 0, "seasons": 0, "code": 0})

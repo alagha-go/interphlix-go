@@ -21,7 +21,7 @@ func Search(round int, query string) ([]byte, int) {
 
 	Response := variables.Response{Action: variables.SearchCast}
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Casts")
+	collection := variables.Client.Database("Interphlix").Collection("Casts")
 
 	projection := bson.M{"score": bson.M{"$meta": "textScore"}, "_id": 1, "name": 1, "profile_path": 1}
 	sort := bson.M{"score": bson.M{"$meta": "textScore"}}

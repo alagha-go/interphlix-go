@@ -24,7 +24,7 @@ func GetCasts(round int) ([]byte, int) {
 	Response := variables.Response{Action: variables.GetCasts}
 	var Casts []Cast
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Casts")
+	collection := variables.Client.Database("Interphlix").Collection("Casts")
 
 	opts := options.Find().SetProjection(bson.M{"_id": 1, "name": 1, "profile_path": 1})
 

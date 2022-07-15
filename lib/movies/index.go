@@ -12,7 +12,7 @@ import (
 
 func IndexMovies() {
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Movies")
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
 
 	model := mongo.IndexModel{
 		Keys: bson.D{{"title", "text"}, {"casts", "text"}, {"genre", "text"}},

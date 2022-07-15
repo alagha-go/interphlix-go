@@ -12,7 +12,7 @@ import (
 
 func IndexCasts() {
 	ctx := context.Background()
-	collection := variables.Local.Database("Interphlix").Collection("Casts")
+	collection := variables.Client.Database("Interphlix").Collection("Casts")
 
 	model := mongo.IndexModel{
 		Keys: bson.D{{"name", "text"}, {"also_known_as", "text"}},

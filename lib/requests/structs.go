@@ -9,6 +9,8 @@ import (
 
 type Request struct {
 	ID						primitive.ObjectID						`json:"_id,omitempty" bson:"_id,omitempty"`
+	ProjectID				primitive.ObjectID						`json:"project_id,omitempty" bson:"project_id,omitempty"`
+	KeyName					string									`json:"key_name,omitempty" bson:"key_name,omitempty"`
 	Url						string									`json:"url,omitempty" bson:"url,omitempty"`
 	Action					string									`json:"action,omitempty" bson:"action,omitempty"`
 	Parameters				url.Values								`json:"parameters,omitempty" bson:"parameters,omitempty"`

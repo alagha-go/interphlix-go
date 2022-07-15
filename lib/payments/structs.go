@@ -1,6 +1,14 @@
-package payment
+package payments
 
-import "time"
+import (
+	"time"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
+type Time struct {
+	time.Time
+}
 
 
 type Payment struct {
@@ -15,11 +23,12 @@ type Payment struct {
 	Address       					string 						`json:"address,omitempty" bson:"address,omitempty"`
 	Amount        					string 						`json:"amount,omitempty" bson:"amount,omitempty"`
 	Confirmations 					int64  						`json:"confirmations,omitempty" bson:"confirmations,omitempty"`
-	Date          					time.Time 					`json:"date,omitempty" bson:"date,omitempty"`
+	Date          					Time 						`json:"date,omitempty" bson:"date,omitempty"`
 }
 
 type Invoice struct {
-	ID              				string           			`json:"id,omitempty" bson:"id,omitempty"`
+	ID								*primitive.ObjectID			`json:"_id,omitempty" bson:"_id,omitempty"`
+	Id              				string           			`json:"id,omitempty" bson:"id,omitempty"`
 	InvoiceID       				string           			`json:"invoice_id,omitempty" bson:"invoice_id,omitempty"`
 	MerchantID      				string           			`json:"merchant_id,omitempty" bson:"merchant_id,omitempty"`
 	URL             				string           			`json:"url,omitempty" bson:"url,omitempty"`
@@ -40,10 +49,10 @@ type Invoice struct {
 	SuceessURL      				string           			`json:"suceess_url,omitempty" bson:"suceess_url,omitempty"`
 	FailURL         				string           			`json:"fail_url,omitempty" bson:"fail_url,omitempty"`
 	ExpireOn        				string           			`json:"expire_on,omitempty" bson:"expire_on,omitempty"`
-	InvoiceDate     				time.Time           		`json:"invoice_date,omitempty" bson:"invoice_date,omitempty"`
+	InvoiceDate     				Time           				`json:"invoice_date,omitempty" bson:"invoice_date,omitempty"`
 	CustomData1     				string           			`json:"custom_data1,omitempty" bson:"custom_data1,omitempty"`
 	CustomData2     				string           			`json:"custom_data2,omitempty" bson:"custom_data2,omitempty"`
-	LastUpdatedDate 				time.Time           		`json:"last_updated_date,omitempty" bson:"last_updated_date,omitempty"`
+	LastUpdatedDate 				Time           				`json:"last_updated_date,omitempty" bson:"last_updated_date,omitempty"`
 }
 
 type ConversionRate struct {
@@ -60,6 +69,6 @@ type PaymentHistory struct {
 	Txid         					string 						`json:"txid,omitempty" bson:"txid,omitempty"`
 	ExplorerURL  					string 						`json:"explorer_url,omitempty" bson:"explorer_url,omitempty"`
 	Amount       					float64 					`json:"amount,omitempty" bson:"amount,omitempty"`
-	Date         					time.Time 					`json:"date,omitempty" bson:"date,omitempty"`
+	Date         					Time 						`json:"date,omitempty" bson:"date,omitempty"`
 	Confirmation 					int64  						`json:"confirmation,omitempty" bson:"confirmation,omitempty"`
 }
