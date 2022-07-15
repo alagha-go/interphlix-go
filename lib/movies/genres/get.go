@@ -40,11 +40,11 @@ func GetGenresByType(Type ...string) []Genre {
 }
 
 func GetGenre(title string) *Genre {
-	var Genre *Genre
+	var Genre Genre
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Genres")
 	collection.FindOne(ctx, bson.M{"title": title}).Decode(&Genre)
-	return Genre
+	return &Genre
 }
 
 
